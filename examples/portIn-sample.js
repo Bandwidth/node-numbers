@@ -1,11 +1,11 @@
-var iris = require("../");
+var numbers = require("../");
 var config = require("./config");
 var fs = require("fs");
 
-iris.Client.globalOptions.apiEndPoint = config.apiEndPoint;
-iris.Client.globalOptions.accountId = config.accountId;
-iris.Client.globalOptions.userName = config.userName;
-iris.Client.globalOptions.password = config.password;
+numbers.Client.globalOptions.apiEndPoint = config.apiEndPoint;
+numbers.Client.globalOptions.accountId = config.accountId;
+numbers.Client.globalOptions.userName = config.userName;
+numbers.Client.globalOptions.password = config.password;
 
 var selectedSite = config.selectedSiteId;
 var selectedPeer = config.selectedSipPeerId
@@ -22,14 +22,14 @@ if(process.argv.length < 3){
 
 var numberToCheck = [process.argv[2]];
 
-iris.LnpChecker.check(numberToCheck, function(err,res){
+numbers.LnpChecker.check(numberToCheck, function(err,res){
   if(err){
     console.log(err)
   }else {
     console.log(res.portableNumbers.tn);
     if(res.portableNumbers && res.portableNumbers.tn == numberToCheck){
       console.log("Your number is portable.  Creating PortIn Order");
-      iris.PortIn.create(createPortInOrder(numberToCheck), function(err, portIn){
+      numbers.PortIn.create(createPortInOrder(numberToCheck), function(err, portIn){
         if(err){
           console.log("Port In create failed " + err);
           process.exit(1);

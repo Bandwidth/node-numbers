@@ -1,10 +1,10 @@
-var iris = require("../");
+var numbers = require("../");
 var config = require("./config");
 
-iris.Client.globalOptions.apiEndPoint = config.apiEndPoint;
-iris.Client.globalOptions.accountId = config.accountId;
-iris.Client.globalOptions.userName = config.userName;
-iris.Client.globalOptions.password = config.password;
+numbers.Client.globalOptions.apiEndPoint = config.apiEndPoint;
+numbers.Client.globalOptions.accountId = config.accountId;
+numbers.Client.globalOptions.userName = config.userName;
+numbers.Client.globalOptions.password = config.password;
 
 var site = {
   name:"My First Site",
@@ -19,7 +19,7 @@ var site = {
   }
 };
 
-iris.Site.create(site, function(err,site){
+numbers.Site.create(site, function(err,site){
   if(err){
     console.log("error: " + err);
   }else {
@@ -31,7 +31,7 @@ iris.Site.create(site, function(err,site){
       if(err){
         console.log("Error updating site: " + err)
       }else {
-        iris.Site.get(site.id, function(err, updatedSite){
+        numbers.Site.get(site.id, function(err, updatedSite){
           if(err){
             console.log("Error getting site: " + err);
           }else {

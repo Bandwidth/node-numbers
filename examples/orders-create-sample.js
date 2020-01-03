@@ -1,10 +1,10 @@
-var iris = require("../");
+var numbers = require("../");
 var config = require("./config");
 
-iris.Client.globalOptions.apiEndPoint = config.apiEndPoint;
-iris.Client.globalOptions.accountId = config.accountId;
-iris.Client.globalOptions.userName = config.userName;
-iris.Client.globalOptions.password = config.password;
+numbers.Client.globalOptions.apiEndPoint = config.apiEndPoint;
+numbers.Client.globalOptions.accountId = config.accountId;
+numbers.Client.globalOptions.userName = config.userName;
+numbers.Client.globalOptions.password = config.password;
 
 var selectedSite = config.selectedSiteId;
 
@@ -26,7 +26,7 @@ var order = {
   }
 };
 
-iris.Order.create(order, function(err,res){
+numbers.Order.create(order, function(err,res){
   if(err){
     console.log("error: " + err);
   }else {

@@ -1,10 +1,10 @@
-var iris = require("../");
+var numbers = require("../");
 var config = require("./config");
 
-iris.Client.globalOptions.apiEndPoint = config.apiEndPoint;
-iris.Client.globalOptions.accountId = config.accountId;
-iris.Client.globalOptions.userName = config.userName;
-iris.Client.globalOptions.password = config.password;
+numbers.Client.globalOptions.apiEndPoint = config.apiEndPoint;
+numbers.Client.globalOptions.accountId = config.accountId;
+numbers.Client.globalOptions.userName = config.userName;
+numbers.Client.globalOptions.password = config.password;
 
 
 if(process.argv.length < 3){
@@ -13,7 +13,7 @@ if(process.argv.length < 3){
 }
 var orderId = process.argv[2];
 
-iris.Order.get(orderId, function(err,order){
+numbers.Order.get(orderId, function(err,order){
   if(err){
     console.log("error: " + err);
   }else {

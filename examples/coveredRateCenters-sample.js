@@ -1,10 +1,10 @@
-var iris = require("../");
+var numbers = require("../");
 var config = require("./config");
 
-iris.Client.globalOptions.apiEndPoint = config.apiEndPoint;
-iris.Client.globalOptions.accountId = config.accountId;
-iris.Client.globalOptions.userName = config.userName;
-iris.Client.globalOptions.password = config.password;
+numbers.Client.globalOptions.apiEndPoint = config.apiEndPoint;
+numbers.Client.globalOptions.accountId = config.accountId;
+numbers.Client.globalOptions.userName = config.userName;
+numbers.Client.globalOptions.password = config.password;
 
 if(process.argv.length < 3){
   console.log("usage: node coveredRateCenters [zip] e.g. node rateCenters 27609");
@@ -12,6 +12,6 @@ if(process.argv.length < 3){
 }
 
 var zip = process.argv[2];
-iris.CoveredRateCenter.list({"zip":zip}, function(err,list){
+numbers.CoveredRateCenter.list({"zip":zip}, function(err,list){
   console.log("First in list: " + JSON.stringify(list, null, 2));
 });
