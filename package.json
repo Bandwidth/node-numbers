@@ -1,0 +1,36 @@
+{
+  "name": "@bandwidth/numbers",
+  "version": "1.0.0",
+  "description": "NodeJs Client library for Bandwidth Numbers API",
+  "main": "index.js",
+  "scripts": {
+    "test": "NODE_ENV=test ./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha",
+    "windows-test" : "./node_modules/.bin/istanbul cover ./node_modules/mocha/bin/_mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bandwidth/node-numbers.git"
+  },
+  "keywords": [
+    "bandwidth",
+    "numbers",
+    "bbs"
+  ],
+  "author": "bandwidth",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bandwidth/node-numbers/issues"
+  },
+  "homepage": "https://github.com/bandwidth/node-numbers",
+  "dependencies": {
+    "streamifier": "^0.1.1",
+    "superagent": "^3.7.0",
+    "xml2js": "^0.4.4"
+  },
+  "devDependencies": {
+    "istanbul": "^0.4.5",
+    "mocha": "^5.2.0",
+    "nock": "^10.0.1",
+    "should": "^4.3.0"
+  }
+}

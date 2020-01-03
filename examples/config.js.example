@@ -1,0 +1,8 @@
+module.exports = {
+  "apiEndPoint":"https://dashboard.bandwidth.com/api",
+  "accountId":"",
+  "userName":"",
+  "password":"",
+  "selectedSiteId":"",
+  "selectedSipPeerId":""
+};
