@@ -1,0 +1,16 @@
+language: node_js
+node_js:
+- '7'
+- '8'
+- '9'
+- '10'
+- '11'
+- '12'
+deploy:
+  provider: npm
+  email: dx@bandwidth.com
+  on:
+    tags: true
+    repo: Bandwidth/node-numbers
+  api_key:
+    secure: "blOgkbLYhXNsbdNr57hhsNAgAjD0/4aCPgDWdfF3ku+Vq56IfatXOSJtopj9A5unINFfTWuDH2KGyt8C1oTDjFGLzZw8D11mHt2ewfH5lp77u93JIvaACDrrbiGvrNyDkSlYeMvVoUPU0sSwUmWomdiwzYLwBAXWx5ZRnez3kxw7e7fu29dI3uM5OWKD0nrGeUSJ8Lgf4d1e8Vvgb4ZKGLSz2HpXrFqabjHQ7B0ShDbxt5biAaxM0lbPTU15iS7qjrWn5kdmNe8mhrPjRRSYfkMMYfVZiV/S4SDKrbQ7dgwEJn3Kf/1EeYG/QGkZ+S5vSxRw2IEakB3tTKcJqK+SWgpckCYa7z8hox2enYQXJkUqmBMZKcixB6CCwRnBaAZwCIZGmDtnN7cm2TOXPFmHmjhaqBTgMhw1RsanL+ewJB6aYBGazC9B7aiQSxyEcmP465Ez318etjQiG1+AvCGvgnYvN6ZO4PNmsk+kA59+43rhfYCyN2oTVpZJ+Es/A2eMyQDGidpxwEDW5buT4wOpFymcBVeR+EBOaLWapSZMSt5EtsZ1B+Whn4mRZDgvblePuFh+TEUnzvZz4N7J6vi7nFnu4Qkxkqa9X3du6SGlzxgjxX4y+5YrInDMcR8BeiJugk7/iSSuV7mYRsdFd9gQTyIw9Lvf6pgtV09kWROgA6I="
