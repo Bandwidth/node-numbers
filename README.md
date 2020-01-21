@@ -2,6 +2,10 @@
 
 NodeJs Client library for Bandwidth Numbers API 
 
+## Other Node SDKs
+* Messaging: https://github.com/Bandwidth/node-messaging
+* Voice: https://github.com/Bandwidth/node-voice
+
 ## Supported Versions
 This SDK stable for node versions 7 and above
 
