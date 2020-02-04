@@ -1,6 +1,6 @@
 # node-numbers
 
-NodeJs Client library for Bandwidth Numbers API 
+NodeJs Client library for Bandwidth Numbers API
 
 ## Other Node SDKs
 * Messaging: https://github.com/Bandwidth/node-messaging
@@ -8,14 +8,6 @@ NodeJs Client library for Bandwidth Numbers API
 
 ## Supported Versions
 This SDK stable for node versions 7 and above
-
-| Version                        | Support Level            |
-|:-------------------------------|:-------------------------|
-| <7                        | Unsupported              |
-| 7.*                            | Supported              |
-| 8.*                            | Supported                |
-| 9.*                            | Supported              |
-| 10.4.1                            | Supported              |
 
 ## Release Notes
 | Version | Notes |
@@ -36,7 +28,7 @@ var numbers = require("@bandwidth/numbers");
 
 //Using client directly
 var client = new numbers.Client("accountId", "userName", "password");
-numbers.Site.list(client, function(err, sites){...}); 
+numbers.Site.list(client, function(err, sites){...});
 
 //Or you can use default client instance (do this only once)
 numbers.Client.globalOptions.accountId = "accountId";
@@ -83,7 +75,7 @@ numbers.Site.create({siteObject}, function(err,item){
 
 Each entity has a get, list, create, update and delete method if appropriate.
 
-All properties are camel-cased for Javascript readability, and are converted on the fly to the proper 
+All properties are camel-cased for Javascript readability, and are converted on the fly to the proper
 case by the internals of the API when converted to XML.
 
 
@@ -119,7 +111,7 @@ Retrieves a list of disconnected numbers for an account
 numbers.DiscNumber.list({"areaCode":"919"}, callback);
 ```
 
-## Disconnect Numbers 
+## Disconnect Numbers
 The Disconnect object is used to disconnect numbers from an account.  Creates a disconnect order that can be tracked
 
 ### Create Disconnect
@@ -377,7 +369,7 @@ numbers.Order.get(id, function(err, order){
 
 ```
 
-### Order Instance Methods 
+### Order Instance Methods
 
 ```Javascript
 // get Area Codes
@@ -420,7 +412,7 @@ var data = {
       stateCode: "NC",
       county: "Wake"
     }
-  }, 
+  },
   loaAuthorizingPerson: "Joe Blow",
   listOfPhoneNumbers: {
     phoneNumber:["9195551212"]
@@ -511,9 +503,9 @@ numbers.RateCenter.list(query, callback);
 ```Javascript
 var data = {
   peerName:"A New SIP Peer",
-  isDefaultPeer:false, 
+  isDefaultPeer:false,
   shortMessagingProtocol:"SMPP",
-  siteId:selectedSite, 
+  siteId:selectedSite,
   voiceHosts:[
     {
       host:{
@@ -566,8 +558,8 @@ numbers.SipPeer.get(function(err, sipPeer){
 ```Javascript
 numbers.SipPeer.get(function(err,sipPeer){
   // get TN for this peer
-  sipPeer.getTns(number, callback);  
-  
+  sipPeer.getTns(number, callback);
+
   // get all TNs for this peer
   sipPeer.getTns(callback);
 
@@ -584,7 +576,7 @@ numbers.SipPeer.get(function(err,sipPeer){
 ## Sites
 
 ### Create A Site
-A site is what is called Location in the web UI. 
+A site is what is called Location in the web UI.
 
 ```Javascript
 var site = {
@@ -633,7 +625,7 @@ numbers.Site.get(id, function(err,site){
   site.getPortIns(query, callback);
 
   // get Total Tns
-  site.getTotalTns(query, callback); 
+  site.getTotalTns(query, callback);
 });
 ```
 ### Site SipPeer Methods
