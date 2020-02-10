@@ -35,7 +35,7 @@ describe("ImportTnOrders", function(){
         }
       };
       helper.nock().post("/accounts/FakeAccountId/portins", helper.buildXml({lnpOrder: data})).reply(200, helper.xml.portIn);
-      PortIn.create(helper.createClient(), data, function(err, item){
+      ImportTnOrder.create(helper.createClient(), data, function(err, item){
         if(err){
           return done(err);
         }
