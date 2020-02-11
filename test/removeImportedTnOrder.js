@@ -58,10 +58,10 @@ describe("RemoveImportedTnOrder", function(){
           removeImportedTnOrder:{
             customerOrderId: "test",
             _nameXmlElement: "CustomerOrderId",
-            telephoneNumbers:
-            numbers.map(function(number) {
-              return {telephoneNumber: number};
-            })
+            telephoneNumbers: [
+              numbers.map(function(number) {
+                return {telephoneNumber: number};
+            })]
           }
         };
         helper.nock().post("/accounts/FakeAccountId/removeImportedTnOrders", helper.buildXml(data)).reply(200, helper.xml.removeImportedTnOrderResponse, {"Content-Type": "application/xml"});
@@ -79,10 +79,10 @@ describe("RemoveImportedTnOrder", function(){
           removeImportedTnOrder:{
             customerOrderId: "test",
             _nameXmlElement: "CustomerOrderId",
-            telephoneNumbers:
-            numbers.map(function(number) {
-              return {telephoneNumber: number};
-            })
+            telephoneNumbers: [
+              numbers.map(function(number) {
+                return {telephoneNumber: number};
+            })]
           }
         };
         helper.nock().post("/accounts/FakeAccountId/removeImportedTnOrders", helper.buildXml(data)).reply(200, helper.xml.removeImportedTnOrderResponse, {"Content-Type": "application/xml"});
