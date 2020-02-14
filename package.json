@@ -1,6 +1,6 @@
 {
   "name": "@bandwidth/numbers",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "NodeJs Client library for Bandwidth Numbers API",
   "main": "index.js",
   "scripts": {
@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/bandwidth/node-numbers",
   "dependencies": {
+    "bluebird": "^3.7.2",
     "streamifier": "^0.1.1",
     "superagent": "^3.7.0",
     "xml2js": "^0.4.4"

@@ -1,6 +1,6 @@
 # node-numbers
 
-NodeJs Client library for Bandwidth Numbers API 
+NodeJs Client library for Bandwidth Numbers API
 
 ## Other Node SDKs
 * Messaging: https://github.com/Bandwidth/node-messaging
@@ -20,6 +20,8 @@ This SDK stable for node versions 7 and above
 ## Release Notes
 | Version | Notes |
 |:--|:--|
+| 1.1.0| Added import tn functionality, added promise based `Async` functions |
+
 
 ## Install
 
@@ -36,7 +38,7 @@ var numbers = require("@bandwidth/numbers");
 
 //Using client directly
 var client = new numbers.Client("accountId", "userName", "password");
-numbers.Site.list(client, function(err, sites){...}); 
+numbers.Site.list(client, function(err, sites){...});
 
 //Or you can use default client instance (do this only once)
 numbers.Client.globalOptions.accountId = "accountId";
@@ -48,6 +50,54 @@ numbers.Client.globalOptions.password = "password";
 numbers.Site.list(function(err, sites){
   //Default client will be used to do this call
 });
+
+```
+
+## Async Methods
+
+Each API Call also contains an async method that returns a promise for use with `.then` or `async`/`await`.
+
+The async method is the original method name with `Async` added.
+
+### Example for listing Available Numbers
+
+#### Callbacks
+
+```js
+// Callbacks
+numbers.AvailableNumbers.list(query, (err, availableNumbers) => {
+  if (err) {
+    console.log(err);
+  }
+  else {
+    console.log(availableNumbers);
+  }
+});
+```
+
+#### Promise Chaining
+```js
+//Promise chaining
+numbers.AvailableNumbers.listAsync(query)
+.then(availableNumbers => {
+  console.log(availableNumbers);
+})
+.catch(e => {
+  console.log(e);
+});
+
+```
+
+#### Async/Await
+```js
+//Async/await
+try {
+  const availableNumbers = await numbers.AvailableNumbers.listAsync(query);
+  console.log(availableNumbers);
+}
+catch (e) {
+  console.log(e)
+}
 
 ```
 
@@ -83,7 +133,7 @@ numbers.Site.create({siteObject}, function(err,item){
 
 Each entity has a get, list, create, update and delete method if appropriate.
 
-All properties are camel-cased for Javascript readability, and are converted on the fly to the proper 
+All properties are camel-cased for Javascript readability, and are converted on the fly to the proper
 case by the internals of the API when converted to XML.
 
 
@@ -119,7 +169,7 @@ Retrieves a list of disconnected numbers for an account
 numbers.DiscNumber.list({"areaCode":"919"}, callback);
 ```
 
-## Disconnect Numbers 
+## Disconnect Numbers
 The Disconnect object is used to disconnect numbers from an account.  Creates a disconnect order that can be tracked
 
 ### Create Disconnect
@@ -377,7 +427,7 @@ numbers.Order.get(id, function(err, order){
 
 ```
 
-### Order Instance Methods 
+### Order Instance Methods
 
 ```Javascript
 // get Area Codes
@@ -420,7 +470,7 @@ var data = {
       stateCode: "NC",
       county: "Wake"
     }
-  }, 
+  },
   loaAuthorizingPerson: "Joe Blow",
   listOfPhoneNumbers: {
     phoneNumber:["9195551212"]
@@ -511,9 +561,9 @@ numbers.RateCenter.list(query, callback);
 ```Javascript
 var data = {
   peerName:"A New SIP Peer",
-  isDefaultPeer:false, 
+  isDefaultPeer:false,
   shortMessagingProtocol:"SMPP",
-  siteId:selectedSite, 
+  siteId:selectedSite,
   voiceHosts:[
     {
       host:{
@@ -566,8 +616,8 @@ numbers.SipPeer.get(function(err, sipPeer){
 ```Javascript
 numbers.SipPeer.get(function(err,sipPeer){
   // get TN for this peer
-  sipPeer.getTns(number, callback);  
-  
+  sipPeer.getTns(number, callback);
+
   // get all TNs for this peer
   sipPeer.getTns(callback);
 
@@ -584,7 +634,7 @@ numbers.SipPeer.get(function(err,sipPeer){
 ## Sites
 
 ### Create A Site
-A site is what is called Location in the web UI. 
+A site is what is called Location in the web UI.
 
 ```Javascript
 var site = {
@@ -633,7 +683,7 @@ numbers.Site.get(id, function(err,site){
   site.getPortIns(query, callback);
 
   // get Total Tns
-  site.getTotalTns(query, callback); 
+  site.getTotalTns(query, callback);
 });
 ```
 ### Site SipPeer Methods
@@ -743,3 +793,70 @@ numbers.TnReservation.get(id, function(err, tn){
   tn.delete(callback);
 });
 ```
+
+## Hosted Messaging
+
+### Check importability
+
+```js
+const numbers = ["1111", "2222"];
+
+try {
+  const importResults = await ImportTnChecker.checkAsync(numbers);
+  console.log(importResults);
+}
+catch (e) {
+  console.log(e)
+}
+```
+
+### Create importTNOrder
+
+```js
+const numbers = ["1111", "2222"];
+
+const data = {
+  customerOrderId: "1111",
+  siteId: "222",
+  sipPeerId: "333",
+  loaAuthorizingPerson: "LoaAuthorizingPerson",
+  subscriber: {
+    name: "ABC Inc.",
+    serviceAddress: {
+      houseNumber: "11235",
+      streetName: "StreetName",
+      stateCode: "NC",
+      city: "City",
+      county: "county",
+      zip: "27606"
+    }
+  }
+};
+
+try {
+  const importTnOrder = await ImportTnOrder.createAsync(numbers);
+  console.log(importTnOrder);
+}
+catch (e) {
+  console.log(e)
+}
+```
+
+### Create removeImportedTnOrder
+
+To restore the messaging functionality to the original owner, create a `removeImportedTnOrder` order to remove the numbers from your account.
+
+```js
+const numbers = ["1111", "2222"];
+const customerOrderId = "customerOrderId"
+
+try {
+  const importTnOrder = await RemoveImportedTnOrder.createAsync(numbers, customerOrderId);
+  console.log(importTnOrder);
+}
+catch (e) {
+  console.log(e)
+}
+```
+
+
