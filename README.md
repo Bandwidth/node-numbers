@@ -51,6 +51,45 @@ numbers.Site.list(function(err, sites){
 
 ```
 
+## Async Methods
+
+Each API Call also contains an async method that returns a promise for use with `.then` or `async`/`await`.
+
+The async method is the original method name with `Async` added.
+
+### Example for listing Available Numbers
+
+```js
+// Callbacks
+numbers.AvailableNumbers.list(query, (err, availableNumbers) => {
+  if (err) {
+    console.log(err);
+  }
+  else {
+    console.log(availableNumbers);
+  }
+});
+
+//Promise chaining
+numbers.AvailableNumbers.listAsync(query)
+.then(availableNumbers => {
+  console.log(availableNumbers);
+})
+.catch(e => {
+  console.log(e);
+});
+
+//Async/await
+try {
+  const availableNumbers = await numbers.AvailableNumbers.listAsync(query);
+  console.log(availableNumbers);
+}
+catch (e) {
+  console.log(e)
+}
+
+```
+
 ## Examples
 There is an 'examples' folder in the source tree that shows how each of the API objects work with simple example code.  To run the examples:
 
@@ -743,3 +782,70 @@ numbers.TnReservation.get(id, function(err, tn){
   tn.delete(callback);
 });
 ```
+
+## Hosted Messaging
+
+### Check importability
+
+```js
+const numbers = ["1111", "2222"];
+
+try {
+  const importResults = await ImportTnChecker.checkAsync(numbers);
+  console.log(importResults);
+}
+catch (e) {
+  console.log(e)
+}
+```
+
+### Create importTNOrder
+
+```js
+const numbers = ["1111", "2222"];
+
+const data = {
+  customerOrderId: "1111",
+  siteId: "222",
+  sipPeerId: "333",
+  loaAuthorizingPerson: "LoaAuthorizingPerson",
+  subscriber: {
+    name: "ABC Inc.",
+    serviceAddress: {
+      houseNumber: "11235",
+      streetName: "StreetName",
+      stateCode: "NC",
+      city: "City",
+      county: "county",
+      zip: "27606"
+    }
+  }
+};
+
+try {
+  const importTnOrder = await ImportTnOrder.createAsync(numbers);
+  console.log(importTnOrder);
+}
+catch (e) {
+  console.log(e)
+}
+```
+
+### Create removeImportedTnOrder
+
+To restore the messaging functionality to the original owner, create a `removeImportedTnOrder` order to remove the numbers from your account.
+
+```js
+const numbers = ["1111", "2222"];
+const customerOrderId = "customerOrderId"
+
+try {
+  const importTnOrder = await RemoveImportedTnOrder.createAsync(numbers, customerOrderId);
+  console.log(importTnOrder);
+}
+catch (e) {
+  console.log(e)
+}
+```
+
+
