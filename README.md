@@ -20,6 +20,8 @@ This SDK stable for node versions 7 and above
 ## Release Notes
 | Version | Notes |
 |:--|:--|
+| 1.1.0| Added import tn functionality, added promise based `Async` functions |
+
 
 ## Install
 
@@ -59,6 +61,8 @@ The async method is the original method name with `Async` added.
 
 ### Example for listing Available Numbers
 
+#### Callbacks
+
 ```js
 // Callbacks
 numbers.AvailableNumbers.list(query, (err, availableNumbers) => {
@@ -69,7 +73,10 @@ numbers.AvailableNumbers.list(query, (err, availableNumbers) => {
     console.log(availableNumbers);
   }
 });
+```
 
+#### Promise Chaining
+```js
 //Promise chaining
 numbers.AvailableNumbers.listAsync(query)
 .then(availableNumbers => {
@@ -79,6 +86,10 @@ numbers.AvailableNumbers.listAsync(query)
   console.log(e);
 });
 
+```
+
+#### Async/Await
+```js
 //Async/await
 try {
   const availableNumbers = await numbers.AvailableNumbers.listAsync(query);
