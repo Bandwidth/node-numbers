@@ -708,8 +708,8 @@ numbers.Site.get(id, function(err,site){
 ```Javascript
 var subscription = {
   orderType:"orders",
-  callbackSubcription: {
-    url:"http://mycallbackurl.com",
+  callbackSubscription: {
+    URL:"http://mycallbackurl.com",
     user:"userid",
     expiry: 12000
   }
