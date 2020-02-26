@@ -9,18 +9,16 @@ NodeJs Client library for Bandwidth Numbers API
 ## Supported Versions
 This SDK stable for node versions 7 and above
 
-| Version                        | Support Level            |
-|:-------------------------------|:-------------------------|
-| <7                        | Unsupported              |
-| 7.*                            | Supported              |
-| 8.*                            | Supported                |
-| 9.*                            | Supported              |
-| 10.4.1                            | Supported              |
+| Version | Support Level |           |
+|:--------|:--------------|:----------|
+| <7      | Unsupported   |           |
+| > 7     |               | Supported |
 
 ## Release Notes
-| Version | Notes |
-|:--|:--|
-| 1.1.0| Added import tn functionality, added promise based `Async` functions |
+| Version | Notes                                                                |
+|:--------|:---------------------------------------------------------------------|
+| 1.1.0   | Added import tn functionality, added promise based `Async` functions |
+| 1.2.0   | Added CSR lookup functionality                                       |
 
 
 ## Install
@@ -58,6 +56,12 @@ numbers.Site.list(function(err, sites){
 Each API Call also contains an async method that returns a promise for use with `.then` or `async`/`await`.
 
 The async method is the original method name with `Async` added.
+
+### Some Examples
+
+* `numbers.Site.create` : `numbers.Site.createAsync`
+* `numbers.AvailableNumbers.list` : `numbers.AvailableNumbers.listAsync`
+* `numbers.Order.create`: `numbers.Order.createAsync`
 
 ### Example for listing Available Numbers
 
