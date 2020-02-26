@@ -859,4 +859,38 @@ catch (e) {
 }
 ```
 
+## CSR Lookup
+
+### Create CSR Order
+
+```js
+const data = {
+  customerOrderId: "MyId5",
+  WorkingOrBillingTelephoneNumber:"9198675309",
+  accountNumber:"123463",
+  endUserPIN:"1231"
+};
+
+try {
+  const csrOrderResponse = await CsrOrder.createAsync(data);
+  console.log(csrOrderResponse);
+}
+catch (e) {
+  console.log(e);
+}
+```
+
+### Fetch Existing CSR Order
+
+```js
+const csrOrderId = "1234-abc"
+
+try {
+  const csrOrderData = await CsrOrder.getAsync(csrOrderId);
+  console.log(csrOrderData);
+}
+catch (e) {
+  console.log(e);
+}
+```
 
