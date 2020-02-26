@@ -873,7 +873,8 @@ const data = {
 
 try {
   const csrOrderResponse = await CsrOrder.createAsync(data);
-  console.log(csrOrderResponse);
+  console.log(csrOrderResponse.orderId);
+  //31e0b16b-4720-4f2e-bb99-1399eeb2ff9e
 }
 catch (e) {
   console.log(e);
@@ -882,15 +883,39 @@ catch (e) {
 
 ### Fetch Existing CSR Order
 
+If the CSR order is in an FAILED state, the SDK will throw an error
+
+#### COMPLETE or PROCESSING resposne
+
 ```js
 const csrOrderId = "1234-abc"
 
 try {
   const csrOrderData = await CsrOrder.getAsync(csrOrderId);
-  console.log(csrOrderData);
+  console.log(csrOrderData.status);
+  //COMPLETE
 }
 catch (e) {
   console.log(e);
 }
 ```
 
+#### FAILED response
+
+```js
+const csrOrderId = "1234-abc"
+
+try {
+  const csrOrderData = await CsrOrder.getAsync(csrOrderId);
+  console.log(csrOrderData.status);
+  //Won't fire, as request is failed
+}
+catch (e) {
+  console.log(e);
+// [BandwidthError: CSR is not available for this TN] {
+//   code: 26500,
+//   message: 'CSR is not available for this TN',
+//   httpStatus: 200
+// }
+}
+```
