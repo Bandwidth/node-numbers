@@ -15,10 +15,11 @@ This SDK stable for node versions 7 and above
 | > 7     |               | Supported |
 
 ## Release Notes
-| Version | Notes                                                                |
-|:--------|:---------------------------------------------------------------------|
-| 1.1.0   | Added import tn functionality, added promise based `Async` functions |
-| 1.2.0   | Added CSR lookup functionality                                       |
+| Version | Notes                                                                                                                                     |    |
+|:--------|:------------------------------------------------------------------------------------------------------------------------------------------|:---|
+| 1.1.0   | Added import tn functionality, added promise based `Async` functions                                                                      |    |
+| 1.2.0   | Added CSR lookup functionality                                                                                                            | .  |
+| 1.2.1   | Fixed Subscription List functionality. Example code at: [examples/subscription_list_and_delete](examples/subscription_list_and_delete.js) |    |
 
 
 ## Install
