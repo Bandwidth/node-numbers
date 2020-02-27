@@ -9,18 +9,16 @@ NodeJs Client library for Bandwidth Numbers API
 ## Supported Versions
 This SDK stable for node versions 7 and above
 
-| Version                        | Support Level            |
-|:-------------------------------|:-------------------------|
-| <7                        | Unsupported              |
-| 7.*                            | Supported              |
-| 8.*                            | Supported                |
-| 9.*                            | Supported              |
-| 10.4.1                            | Supported              |
+| Version | Support Level |           |
+|:--------|:--------------|:----------|
+| <7      | Unsupported   |           |
+| > 7     |               | Supported |
 
 ## Release Notes
-| Version | Notes |
-|:--|:--|
-| 1.1.0| Added import tn functionality, added promise based `Async` functions |
+| Version | Notes                                                                |
+|:--------|:---------------------------------------------------------------------|
+| 1.1.0   | Added import tn functionality, added promise based `Async` functions |
+| 1.2.0   | Added CSR lookup functionality                                       |
 
 
 ## Install
@@ -58,6 +56,12 @@ numbers.Site.list(function(err, sites){
 Each API Call also contains an async method that returns a promise for use with `.then` or `async`/`await`.
 
 The async method is the original method name with `Async` added.
+
+### Some Examples
+
+* `numbers.Site.create` : `numbers.Site.createAsync`
+* `numbers.AvailableNumbers.list` : `numbers.AvailableNumbers.listAsync`
+* `numbers.Order.create`: `numbers.Order.createAsync`
 
 ### Example for listing Available Numbers
 
@@ -859,4 +863,63 @@ catch (e) {
 }
 ```
 
+## CSR Lookup
 
+### Create CSR Order
+
+```js
+const data = {
+  customerOrderId: "MyId5",
+  WorkingOrBillingTelephoneNumber:"9198675309",
+  accountNumber:"123463",
+  endUserPIN:"1231"
+};
+
+try {
+  const csrOrderResponse = await CsrOrder.createAsync(data);
+  console.log(csrOrderResponse.orderId);
+  //31e0b16b-4720-4f2e-bb99-1399eeb2ff9e
+}
+catch (e) {
+  console.log(e);
+}
+```
+
+### Fetch Existing CSR Order
+
+If the CSR order is in an FAILED state, the SDK will throw an error
+
+#### COMPLETE or PROCESSING resposne
+
+```js
+const csrOrderId = "1234-abc"
+
+try {
+  const csrOrderData = await CsrOrder.getAsync(csrOrderId);
+  console.log(csrOrderData.status);
+  //COMPLETE
+}
+catch (e) {
+  console.log(e);
+}
+```
+
+#### FAILED response
+
+```js
+const csrOrderId = "1234-abc"
+
+try {
+  const csrOrderData = await CsrOrder.getAsync(csrOrderId);
+  console.log(csrOrderData.status);
+  //Won't fire, as request is failed
+}
+catch (e) {
+  console.log(e);
+// [BandwidthError: CSR is not available for this TN] {
+//   code: 26500,
+//   message: 'CSR is not available for this TN',
+//   httpStatus: 200
+// }
+}
+```
