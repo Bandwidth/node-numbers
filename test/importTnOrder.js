@@ -36,7 +36,7 @@ describe("ImportTnOrders", function(){
       };
       var numbers = ["9198675309", "8288675309"];
       data.telephoneNumbers = [numbers.map(number => {return {telephoneNumber: number}})];
-      helper.nock().post("/accounts/FakeAccountId/importTnOrders", helper.buildXml({importTnOrder: data})).reply(200, helper.xml.importTnOrder);
+      helper.nock().post("/accounts/FakeAccountId/importtnorders", helper.buildXml({importTnOrder: data})).reply(200, helper.xml.importTnOrder);
       ImportTnOrder.create(helper.createClient(), data, numbers, function(err, item){
         if(err){
           return done(err);
@@ -65,7 +65,7 @@ describe("ImportTnOrders", function(){
       };
       var numbers = ["9198675309", "8288675309"];
       data.telephoneNumbers = [numbers.map(number => {return {telephoneNumber: number}})];
-      helper.nock().post("/accounts/FakeAccountId/importTnOrders", helper.buildXml({importTnOrder: data})).reply(200, helper.xml.importTnOrder);
+      helper.nock().post("/accounts/FakeAccountId/importtnorders", helper.buildXml({importTnOrder: data})).reply(200, helper.xml.importTnOrder);
       ImportTnOrder.create(helper.createClient(), data, numbers, function(err, item){
         if(err){
           return done(err);
@@ -93,7 +93,7 @@ describe("ImportTnOrders", function(){
         }
       };
       var numbers = ["9198675309", "8288675309"];
-      helper.nock().post("/accounts/FakeAccountId/importTnOrders").reply(400, "");
+      helper.nock().post("/accounts/FakeAccountId/importtnorders").reply(400, "");
       ImportTnOrder.create(helper.createClient(), data, numbers,  function(err, item){
         if(err){
           return done();
@@ -104,7 +104,7 @@ describe("ImportTnOrders", function(){
   });
   describe("#getImportTnOrder", function(){
     it("should return a importTnOrder", function(done){
-      helper.nock().get("/accounts/FakeAccountId/importTnOrders/021a94f5-5c55-401f-9cdc-8dca059ad7c1").reply(200, helper.xml.importTnOrderResponse, {"Content-Type": "application/xml"});
+      helper.nock().get("/accounts/FakeAccountId/importtnorders/021a94f5-5c55-401f-9cdc-8dca059ad7c1").reply(200, helper.xml.importTnOrderResponse, {"Content-Type": "application/xml"});
       ImportTnOrder.get("021a94f5-5c55-401f-9cdc-8dca059ad7c1", (err, item) => {
         if(err){
           return done(err);
@@ -117,7 +117,7 @@ describe("ImportTnOrders", function(){
   });
   describe("#getImportTnOrders", function(){
     it("should return a list of ImportTnOrderSummary(s)", function(done){
-      helper.nock().get("/accounts/FakeAccountId/importTnOrders").reply(200, helper.xml.importTnOrderList, {"Content-Type": "application/xml"});
+      helper.nock().get("/accounts/FakeAccountId/importtnorders").reply(200, helper.xml.importTnOrderList, {"Content-Type": "application/xml"});
       ImportTnOrder.list({}, (err, items) => {
         if(err){
           return done(err);
@@ -130,7 +130,7 @@ describe("ImportTnOrders", function(){
   });
   describe("#getHistory", function(){
     it("should return histoy", function(done){
-      helper.nock().get("/accounts/FakeAccountId/importTnOrders/1/history").reply(200, helper.xml.importTnOrderHistory, {"Content-Type": "application/xml"});
+      helper.nock().get("/accounts/FakeAccountId/importtnorders/1/history").reply(200, helper.xml.importTnOrderHistory, {"Content-Type": "application/xml"});
       var order = new ImportTnOrder();
       order.id = 1;
       order.client = helper.createClient();
@@ -145,7 +145,7 @@ describe("ImportTnOrders", function(){
   });
   describe("#getFiles", function(){
     it("should return list of files", function(done){
-      helper.nock().get("/accounts/FakeAccountId/importTnOrders/1/loas?metadata=true").reply(200, helper.xml.files, {"Content-Type": "application/xml"});
+      helper.nock().get("/accounts/FakeAccountId/importtnorders/1/loas?metadata=true").reply(200, helper.xml.files, {"Content-Type": "application/xml"});
       var order = new ImportTnOrder();
       order.id = 1;
       order.client = helper.createClient();
@@ -160,7 +160,7 @@ describe("ImportTnOrders", function(){
       });
     });
     it("should return list of files (without metadata)", function(done){
-      helper.nock().get("/accounts/FakeAccountId/importTnOrders/1/loas?metadata=false").reply(200, helper.xml.files, {"Content-Type": "application/xml"});
+      helper.nock().get("/accounts/FakeAccountId/importtnorders/1/loas?metadata=false").reply(200, helper.xml.files, {"Content-Type": "application/xml"});
       var order = new ImportTnOrder();
       order.id = 1;
       order.client = helper.createClient();
@@ -174,7 +174,7 @@ describe("ImportTnOrders", function(){
       });
     });
     it("should fail for error status code", function(done){
-      helper.nock().get("/accounts/FakeAccountId/importTnOrders/1/loas?metadata=false").reply(400);
+      helper.nock().get("/accounts/FakeAccountId/importtnorders/1/loas?metadata=false").reply(400);
       var order = new ImportTnOrder();
       order.id = 1;
       order.client = helper.createClient();
@@ -187,7 +187,7 @@ describe("ImportTnOrders", function(){
     });
     describe("#getFileMetadata", function(){
       it("should return file's metadata", function(done){
-        helper.nock().get("/accounts/FakeAccountId/importTnOrders/1/loas/file.txt/metadata").reply(200, helper.xml.fileMetadata, {"Content-Type": "application/xml"});
+        helper.nock().get("/accounts/FakeAccountId/importtnorders/1/loas/file.txt/metadata").reply(200, helper.xml.fileMetadata, {"Content-Type": "application/xml"});
         var order = new ImportTnOrder();
         order.id = 1;
         order.client = helper.createClient();
@@ -203,7 +203,7 @@ describe("ImportTnOrders", function(){
     describe("#updateFileMetadata", function(){
       it("should update file's metadata", function(done){
         var metadata = { documentName: "doc", documentType: "type"};
-        helper.nock().put("/accounts/FakeAccountId/importTnOrders/1/loas/file.txt/metadata", helper.buildXml({ fileMetaData: metadata})).reply(200);
+        helper.nock().put("/accounts/FakeAccountId/importtnorders/1/loas/file.txt/metadata", helper.buildXml({ fileMetaData: metadata})).reply(200);
         var order = new ImportTnOrder();
         order.id = 1;
         order.client = helper.createClient();
@@ -213,7 +213,7 @@ describe("ImportTnOrders", function(){
     describe("#getFile", function(){
       var tmpFile = path.join(os.tmpdir(), "dest.txt");
       beforeEach(function(){
-        helper.nock().get("/accounts/FakeAccountId/importTnOrders/1/loas/file.txt").reply(200, "12345", {"Content-Type": "text/plain"});
+        helper.nock().get("/accounts/FakeAccountId/importtnorders/1/loas/file.txt").reply(200, "12345", {"Content-Type": "text/plain"});
       });
       afterEach(function(done){
         nock.cleanAll();
@@ -268,7 +268,7 @@ describe("ImportTnOrders", function(){
     describe("#createFile", function(){
       var order, tmpFile = path.join(os.tmpdir(), "dest.txt");
       beforeEach(function(done){
-        helper.nock().post("/accounts/FakeAccountId/importTnOrders/1/loas", "12345", {"Content-Type": "text/plain"}).reply(200, helper.xml.fileCreated, {"Content-Type": "application/xml"});
+        helper.nock().post("/accounts/FakeAccountId/importtnorders/1/loas", "12345", {"Content-Type": "text/plain"}).reply(200, helper.xml.fileCreated, {"Content-Type": "application/xml"});
         order = new ImportTnOrder();
         order.id = 1;
         order.client = helper.createClient();
@@ -307,7 +307,7 @@ describe("ImportTnOrders", function(){
       });
       it("should fail on error status code", function(done){
         nock.cleanAll();
-        helper.nock().post("/accounts/FakeAccountId/importTnOrders/1/loas", "11111", {"Content-Type": "text/plain"}).reply(400);
+        helper.nock().post("/accounts/FakeAccountId/importtnorders/1/loas", "11111", {"Content-Type": "text/plain"}).reply(400);
         order.createFile(new Buffer.from("11111", "utf8"), "text/plain", function(err, fileName){
           if(err){
             return done();
@@ -317,7 +317,7 @@ describe("ImportTnOrders", function(){
       });
       it("should upload file to the server (default media type)", function(done){
         nock.cleanAll();
-        helper.nock().post("/accounts/FakeAccountId/importTnOrders/1/loas", "12345", {"Content-Type": "application/octet-stream"}).reply(200, helper.xml.fileCreated, {"Content-Type": "application/xml"});
+        helper.nock().post("/accounts/FakeAccountId/importtnorders/1/loas", "12345", {"Content-Type": "application/octet-stream"}).reply(200, helper.xml.fileCreated, {"Content-Type": "application/xml"});
         order.createFile(new Buffer.from("12345", "utf8"), function(err, fileName){
           if(err){
             return done(err);
@@ -330,7 +330,7 @@ describe("ImportTnOrders", function(){
     describe("#updateFile", function(){
       var order, tmpFile = path.join(os.tmpdir(), "dest.txt");
       beforeEach(function(done){
-        helper.nock().put("/accounts/FakeAccountId/importTnOrders/1/loas/test.txt", "12345", {"Content-Type": "text/plain"}).reply(200);
+        helper.nock().put("/accounts/FakeAccountId/importtnorders/1/loas/test.txt", "12345", {"Content-Type": "text/plain"}).reply(200);
         order = new ImportTnOrder();
         order.id = 1;
         order.client = helper.createClient();
@@ -351,7 +351,7 @@ describe("ImportTnOrders", function(){
       });
       it("should fail on error status code", function(done){
         nock.cleanAll();
-        helper.nock().put("/accounts/FakeAccountId/importTnOrders/1/loas/test.txt", "11111", {"Content-Type": "text/plain"}).reply(400);
+        helper.nock().put("/accounts/FakeAccountId/importtnorders/1/loas/test.txt", "11111", {"Content-Type": "text/plain"}).reply(400);
         order.updateFile("test.txt", new Buffer.from("11111", "utf8"), "text/plain", function(err){
           if(err){
             return done();
@@ -361,7 +361,7 @@ describe("ImportTnOrders", function(){
       });
       it("should upload file to the server (default media type)", function(done){
         nock.cleanAll();
-        helper.nock().put("/accounts/FakeAccountId/importTnOrders/1/loas/test.txt", "12345", {"Content-Type": "application/octet-stream"}).reply(200, helper.xml.fileCreated, {"Content-Type": "application/xml"});
+        helper.nock().put("/accounts/FakeAccountId/importtnorders/1/loas/test.txt", "12345", {"Content-Type": "application/octet-stream"}).reply(200, helper.xml.fileCreated, {"Content-Type": "application/xml"});
         order.updateFile("test.txt", new Buffer.from("12345", "utf8"), done);
       });
     });
