@@ -1,6 +1,6 @@
 {
   "name": "@bandwidth/numbers",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "NodeJs Client library for Bandwidth Numbers API",
   "main": "index.js",
   "scripts": {
