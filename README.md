@@ -20,6 +20,7 @@ This SDK stable for node versions 7 and above
 | 1.1.0   | Added import tn functionality, added promise based `Async` functions                                                                      |
 | 1.2.0   | Added CSR lookup functionality                                                                                                            |
 | 1.2.1   | Fixed Subscription List functionality. Example code at: [examples/subscription_list_and_delete](examples/subscription_list_and_delete.js) |
+| 1.2.2   | Readme Typo for `RemoveImportedTnOrder`                                                                                                   |
 
 
 ## Install
@@ -856,7 +857,7 @@ const numbers = ["1111", "2222"];
 const customerOrderId = "customerOrderId"
 
 try {
-  const importTnOrder = await RemoveImportedTnOrder.createAsync(numbers, customerOrderId);
+  const importTnOrder = await RemoveImportedTnOrder.createAsync(customerOrderId, numbers);
   console.log(importTnOrder);
 }
 catch (e) {
