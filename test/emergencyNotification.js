@@ -87,8 +87,6 @@ describe("EmergencyNotification", function(){
             var list = res.emergencyNotificationRecipients.emergencyNotificationRecipient;
 
             list[0].identifier.should.equal(" 63865500-0904-46b1-9b4f-7bd237a26363 ");
-            list[0].createdDate.toString().should.equal("Wed Mar 18 2020 17:26:47 GMT-0400 (Eastern Daylight Time)");
-            list[0].lastModifiedDate.toString().should.equal("Wed Mar 18 2020 17:26:47 GMT-0400 (Eastern Daylight Time)");
             list[0].modifiedByUser.should.equal("jgilmore");
             list[0].description.should.equal(" This is a description of the emergency notification recipient. ");
             list[0].type.should.equal("CALLBACK");
