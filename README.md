@@ -925,3 +925,194 @@ catch (e) {
 // }
 }
 ```
+
+## Emergency Notification
+
+### List Recipients
+
+```js
+try {
+  const response = await EmergencyNotification.listRecipientsAsync(client, {"Size": "20"} );
+  console.log(response.emergencyNotificationRecipients.emergencyNotificationRecipient.length);
+  //4
+}
+catch (e) {
+  console.log(e);
+}
+```
+### Get Recipient
+
+```js
+try {
+  const response = await EmergencyNotification.getRecipientAsync(client, "enrid" );
+  console.log(response.emergencyNotificationRecipient.identifier);
+  //63865500-0904-46b1-9b4f-7bd237a26363
+}
+catch (e) {
+  console.log(e);
+}
+```
+### Replace Recipient
+
+```js
+var en = new EmergencyNotification();
+en.enrid = 123;
+
+try {
+  const response = await en.replaceRecipientAsync(client, recipient);
+  console.log(response.emergencyNotificationRecipient.identifier);
+  //63865500-0904-46b1-9b4f-7bd237a26363
+}
+catch (e) {
+  console.log(e);
+}
+```
+### Create Recipient
+
+```js
+try {
+  const response = await EmergencyNotification.createRecipientAsync(client, recipient);
+  console.log(response.emergencyNotificationRecipient.identifier);
+  //63865500-0904-46b1-9b4f-7bd237a26363
+}
+catch (e) {
+  console.log(e);
+}
+```
+### Delete Recipient
+
+```js
+var en = new EmergencyNotification();
+en.enrid = 123;
+
+try {
+  const response = await en.deleteRecipientAsync(client);
+}
+catch (e) {
+  console.log(e);
+}
+```
+### List Group Orders
+
+```js
+try {
+  const response = await EmergencyNotification.listGroupOrdersAsync(helper.createClient(), {Size: "20"});
+  console.log(response.emergencyNotificationGroupOrders.emergencyNotificationGroupOrder.length);
+  //20
+}
+catch (e) {
+  console.log(e);
+}
+```
+### Get Group Order
+
+```js
+try {
+  const response = await EmergencyNotification.getGroupOrderAsync(helper.createClient(), "orderId");
+  console.log(response.emergencyNotificationGroup.orderId);
+  //orderId
+}
+catch (e) {
+  console.log(e);
+}
+```
+### Create Group Order
+
+```js
+try {
+  const response = EmergencyNotification.createGroupOrderAsync(helper.createClient(), groupOrder);
+  console.log(response.OrderId);
+  //900b3646-18df-4626-b237-3a8de648ebf6
+}
+catch (e) {
+  console.log(e);
+}
+```
+### List Group
+
+```js
+try {
+  const response = await EmergencyNotification.listGroupsAsync(client, {"Size": "20"} );
+  console.log(response.emergencyNotificationGroups.emergencyNotificationGroup.length);
+  //20
+}
+catch (e) {
+  console.log(e);
+}
+```
+### Get Group
+
+```js
+try {
+  const response = await EmergencyNotification.getGroupAsync(client, "engid");
+  console.log(response.emergencyNotificationGroup.identifier);
+  //63865500-0904-46b1-9b4f-7bd237a26363
+}
+catch (e) {
+  console.log(e);
+}
+```
+### List Endpoint Orders
+
+```js
+try {
+  const response = await EmergencyNotification.listEnpointOrdersAsync(client, {"Size": "20"} );
+  console.log(response.emergencyNotificationEndpointOrders.emergencyNotificationEndpointOrder.length);
+  //20
+}
+catch (e) {
+  console.log(e);
+}
+```
+### Get Endpoint Order
+
+```js
+try {
+  const response = await EmergencyNotification.getEndpointOrderAsync(client, "orderId" );
+  console.log(response.emergencyNotificationEndpointOrder.orderId);
+  //orderId
+}
+catch (e) {
+  console.log(e);
+}
+```
+### Create Endpoint Orders
+
+```js
+try {
+  const response = await EmergencyNotification.createEndpointOrderAsync(client, endpoint );
+  console.log(response.emergencyNotificationEndpointOrder.orderId);
+  //3e9a852e-2d1d-4e2d-84c3-87223a78cb70
+}
+catch (e) {
+  console.log(e);
+}
+```
+
+## Aeuis
+
+### List Aeuis's
+
+```js
+try {
+  const response = await Aeuis.listAsync(client, {Size: 20} );
+  console.log(response.AlternateEndUserIdentifiers.AlternateEndUserIdentifier.length);
+  //20
+}
+catch (e) {
+  console.log(e);
+}
+```
+
+### Get Aeuis's
+
+```js
+try {
+  const response = await Aeuis.getAsync(client, "acid" );
+  console.log(response.AlternateEndUserIdentifier.Identifier);
+  //acid
+}
+catch (e) {
+  console.log(e);
+}
+```
