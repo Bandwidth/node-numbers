@@ -135,7 +135,6 @@ describe("Application", function(){
         }
         item.applicationId.should.equal(2);
         item.appName.should.equal("Test Application 2");
-        console.log(item)
         item.serviceType.should.equal("Voice-V2");
         done();
       });
@@ -151,7 +150,6 @@ describe("Application", function(){
         }
         item.applicationId.should.equal(2);
         item.appName.should.equal("Test Application 2");
-        console.log(item)
         item.serviceType.should.equal("Voice-V2");
         done();
       });
