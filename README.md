@@ -21,6 +21,7 @@ This SDK stable for node versions 7 and above
 | 1.2.0   | Added CSR lookup functionality                                                                                                            |
 | 1.2.1   | Fixed Subscription List functionality. Example code at: [examples/subscription_list_and_delete](examples/subscription_list_and_delete.js) |
 | 1.2.2   | Readme Typo for `RemoveImportedTnOrder`                                                                                                   |
+| 1.3.0 | Added Emergency Calling Notification endpoints |
 
 
 ## Install
