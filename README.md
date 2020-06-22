@@ -704,6 +704,21 @@ numbers.SipPeer.get(function(err,sipPeer){
 });
 ```
 
+### SipPeer link Application Methods
+
+```Javascript
+numbers.SipPeer.get(function(err,sipPeer){
+  // List applications associated with this peer
+  sipPeer.listApplications(callback);
+
+  // Associate an application with this peer
+  sipPeer.editApplications({httpMessagingV2AppId: [appId]}, callback);
+
+  // Dissociate all applications with this peer
+  sipPeer.removeApplications(callback);
+```
+
+
 ## Sites
 
 ### Create A Site
