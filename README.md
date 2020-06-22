@@ -143,6 +143,72 @@ All properties are camel-cased for Javascript readability, and are converted on 
 case by the internals of the API when converted to XML.
 
 
+## Applications
+### Create Voice Application
+
+```Javascript
+var data = {
+  appName:"test app",
+  callInitiatedCallbackUrl: "http://example.com",
+  callInitiatedMethod: "POST",
+  callStatusCallbackUrl: "http://example.com",
+  callStatusMethod: "POST"
+  callbackCreds: {
+    userId: 'my-id',
+    password: 'my-password'
+  }
+};
+
+numbers.Application.createVoiceApplication(data, callback);
+```
+
+### Create Messaging Application
+
+```Javascript
+var data = {
+  appName:"test app",
+  msgCallbackUrl: "http://example.com",
+  callbackCreds: {
+    userId: 'my-id',
+    password: 'my-password'
+  }
+};
+
+numbers.Application.createMessagingApplication(data, callback);
+```
+
+### List All Applications
+
+```Javascript
+numbers.Application.list(callback);
+```
+
+### Get an Application
+```Javascript
+numbers.Application.get(id, callback);
+```
+
+### Update an Application
+```Javascript
+numbers.Application.get(id, (err, app) => {
+  app.appName = "new name";
+  app.update(app, callback);
+});
+```
+
+### Delete an Application
+```Javascript
+numbers.Application.get(id, (err, app) => {
+  app.delete(callback)
+});
+```
+
+### Get SipPeers Associated With and Application
+```Javascript
+numbers.Application.get(id, (err, app) => {
+  app.getSipPeers(callback);
+});
+```
 
 ## Available Numbers
 
