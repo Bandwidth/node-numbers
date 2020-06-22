@@ -213,7 +213,7 @@ describe("SipPeer", function(){
   describe("#editApplications", function() {
     it("should edit applications", function(done) {
       var appData = {httpMessagingV2AppId: 100}
-      var span = helper.nock().put("/accounts/FakeAccountId/sites/1/sippeers/10/products/messaging/applicationSettings", helper.buildXml({applicationSettings: appData})).reply(200, helper.xml.peerApplications, {"Content-Type": "application/xml"});
+      var span = helper.nock().put("/accounts/FakeAccountId/sites/1/sippeers/10/products/messaging/applicationSettings", helper.buildXml({applicationsSettings: appData})).reply(200, helper.xml.peerApplications, {"Content-Type": "application/xml"});
       var peer = new SipPeer();
       peer.id = 10;
       peer.siteId = 1;
@@ -232,8 +232,7 @@ describe("SipPeer", function(){
   describe("#removeApplications", function() {
     it("should remove applications", function(done) {
       var appData = 'REMOVE';
-      console.log(helper.buildXml({applicationSettings: appData}))
-      var span = helper.nock().put("/accounts/FakeAccountId/sites/1/sippeers/10/products/messaging/applicationSettings", helper.buildXml({applicationSettings: appData})).reply(200, helper.xml.peerApplications, {"Content-Type": "application/xml"});
+      var span = helper.nock().put("/accounts/FakeAccountId/sites/1/sippeers/10/products/messaging/applicationSettings", helper.buildXml({applicationsSettings: appData})).reply(200, helper.xml.peerApplications, {"Content-Type": "application/xml"});
       var peer = new SipPeer();
       peer.id = 10;
       peer.siteId = 1;
