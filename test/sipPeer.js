@@ -193,14 +193,14 @@ describe("SipPeer", function(){
       peer.moveTns(data, done);
     });
   });
-  describe("#listApplications", function() {
-    it("should list applications", function(done) {
+  describe("#listApplication", function() {
+    it("should list application", function(done) {
       var span = helper.nock().get("/accounts/FakeAccountId/sites/1/sippeers/10/products/messaging/applicationSettings").reply(200, helper.xml.peerApplications, {"Content-Type": "application/xml"});
       var peer = new SipPeer();
       peer.id = 10;
       peer.siteId = 1;
       peer.client = helper.createClient();
-      peer.listApplications(function(err, results) {
+      peer.listApplication(function(err, results) {
         if (err) {
           done(err);
         } else {
@@ -210,34 +210,34 @@ describe("SipPeer", function(){
       });
     });
   });
-  describe("#editApplications", function() {
-    it("should edit applications", function(done) {
+  describe("#editApplication", function() {
+    it("should edit the application", function(done) {
       var appData = {httpMessagingV2AppId: 100}
       var span = helper.nock().put("/accounts/FakeAccountId/sites/1/sippeers/10/products/messaging/applicationSettings", helper.buildXml({applicationsSettings: appData})).reply(200, helper.xml.peerApplications, {"Content-Type": "application/xml"});
       var peer = new SipPeer();
       peer.id = 10;
       peer.siteId = 1;
       peer.client = helper.createClient();
-      var appData = [{httpMessagingV2AppId: 100}]
-      peer.editApplications(appData, function(err, results) {
+      var appData = {httpMessagingV2AppId: 100}
+      peer.editApplication(appData, function(err, results) {
         if (err) {
           done(err);
         } else {
-          results.httpMessagingV2AppId[0].should.equal(100)
+          results.httpMessagingV2AppId.should.equal(100)
           done();
         }
       });
     });
   });
-  describe("#removeApplications", function() {
-    it("should remove applications", function(done) {
+  describe("#removeApplication", function() {
+    it("should remove application", function(done) {
       var appData = 'REMOVE';
       var span = helper.nock().put("/accounts/FakeAccountId/sites/1/sippeers/10/products/messaging/applicationSettings", helper.buildXml({applicationsSettings: appData})).reply(200, helper.xml.peerApplications, {"Content-Type": "application/xml"});
       var peer = new SipPeer();
       peer.id = 10;
       peer.siteId = 1;
       peer.client = helper.createClient();
-      peer.removeApplications(done);
+      peer.removeApplication(done);
     });
   });
 

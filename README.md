@@ -708,14 +708,15 @@ numbers.SipPeer.get(function(err,sipPeer){
 
 ```Javascript
 numbers.SipPeer.get(function(err,sipPeer){
-  // List applications associated with this peer
-  sipPeer.listApplications(callback);
+  // List application associated with this peer
+  sipPeer.listApplication(callback);
 
   // Associate an application with this peer
-  sipPeer.editApplications({httpMessagingV2AppId: [appId]}, callback);
+  var appId = "my-application-id";
+  sipPeer.editApplication({httpMessagingV2AppId: appId}, callback);
 
   // Dissociate all applications with this peer
-  sipPeer.removeApplications(callback);
+  sipPeer.removeApplication(callback);
 ```
 
 
