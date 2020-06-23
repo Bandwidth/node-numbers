@@ -1156,6 +1156,21 @@ catch (e) {
 }
 ```
 
+
+## Geocoding
+### Make a geocode request
+
+```Javascript
+var data = data = {
+  addressLine1: "900 Main Campus Dr",
+  city: 'raleigh',
+  stateCode: 'nc',
+  zip: 27606
+}
+
+numbers.Geocode.request(data, callback)
+```
+
 ## Aeuis
 
 ### List Aeuis's
