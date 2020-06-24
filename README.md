@@ -704,6 +704,22 @@ numbers.SipPeer.get(function(err,sipPeer){
 });
 ```
 
+### SipPeer link Application Methods
+
+```Javascript
+numbers.SipPeer.get(function(err,sipPeer){
+  // List application associated with this peer
+  sipPeer.listApplication(callback);
+
+  // Associate an application with this peer
+  var appId = "my-application-id";
+  sipPeer.editApplication({httpMessagingV2AppId: appId}, callback);
+
+  // Dissociate all applications with this peer
+  sipPeer.removeApplication(callback);
+```
+
+
 ## Sites
 
 ### Create A Site
