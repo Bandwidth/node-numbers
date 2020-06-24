@@ -1168,7 +1168,13 @@ var data = data = {
   zip: 27606
 }
 
-numbers.Geocode.request(data, callback)
+numbers.Geocode.request(data, function(error, address) {
+  if (error) {
+    return callback(error)
+  }
+  console.log(address.stateCode, address.houseNumber, address.streetName, address.streetSuffix, address.city)
+  //NC, 900, Main Campus, Dr, Raleigh
+});
 ```
 
 ## Aeuis
