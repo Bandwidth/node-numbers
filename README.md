@@ -904,27 +904,12 @@ numbers.TnOption.list(client, query, (err, tnOptions) => {
 
 ```js
 const tnOptionOrderId = 'fakeOrderId';
-numbers.TnOption.list(tnOptionOrderId, (err, tnOption) => {
+numbers.TnOption.get(tnOptionOrderId, (err, tnOption) => {
   if (err) {
     console.error(err);
   }
   console.log(tnOptions);
 })
-```
-
-### Add a PortOutPasscode
-
-```
-const tnOptionsOrder = {
-  customerOrderId: 'myOrderId',
-  tnOptionGroups: [
-    {
-      portOutPasscode: 'mypass1',
-      telephoneNumbers: ['1234567890']
-    }
-  ]
-}
-numbers.TnOption.create(tnOptionsOrder, callback) //for callback example see TnOption.get
 ```
 
 ### Add a PortOutPasscode
