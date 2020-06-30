@@ -50,7 +50,7 @@ describe("TnOption", function(){
         if(err){
           return done();
         }
-        done(new Error("An error is estimated"));
+        done(new Error("An error is expected"));
       });
     });
   });
@@ -62,7 +62,6 @@ describe("TnOption", function(){
           return done(err);
         }
         span.isDone().should.be.true;
-        console.log(item);
         item.createdByUser.should.equal('user');
         item.tnOptionGroups[0].numberFormat.should.equal('10digit');
         item.tnOptionGroups[0].callForward.should.equal('6042661720');
@@ -77,7 +76,6 @@ describe("TnOption", function(){
           return done(err);
         }
         span.isDone().should.be.true;
-        console.log(item);
         item.createdByUser.should.equal('user');
         item.tnOptionGroups[0].numberFormat.should.equal('10digit');
         item.tnOptionGroups[0].callForward.should.equal('6042661720');
@@ -91,43 +89,135 @@ describe("TnOption", function(){
         if(err){
           return done();
         }
-        done(new Error("An error is estimated"));
+        done(new Error("An error is expected"));
       });
     });
   });
   describe("#create", function(){
-    it("should create a  site", function(done){
-      var data = {name: "Test Site", description: "A Site Description"};
-      helper.nock().post("/accounts/FakeAccountId/sites", helper.buildXml({site: data})).reply(201, "", {"Location": "/accounts/FakeAccountId/sites/1"});
-      helper.nock().get("/accounts/FakeAccountId/sites/1").reply(200, helper.xml.site, {"Content-Type": "application/xml"});
-      Site.create(helper.createClient(), data,  function(err, item){
+    it("should add a portout passcode", function(done){
+      const userInput = {
+        customerOrderId: 'myOrderId',
+        tnOptionGroups: [
+          {
+            portOutPasscode: 'mypass1',
+            telephoneNumbers: ['2018551020']
+          }
+        ]
+      }
+      const receivedData = {
+        customerOrderId: 'myOrderId',
+        tnOptionGroups: {
+          tnOptionGroup: [
+            {
+              portOutPasscode: 'mypass1',
+              telephoneNumbers: {
+                telephoneNumber: ['2018551020']
+              }
+            }
+          ]
+        }
+      }
+      helper.nock().post("/accounts/FakeAccountId/tnoptions", helper.buildXml({tnOptionOrder: receivedData})).reply(201, "", {"Location": "/accounts/FakeAccountId/tnoptions/1"});
+      helper.nock().get("/accounts/FakeAccountId/tnoptions/1").reply(200, helper.xml.tnOption, {"Content-Type": "application/xml"});
+      TnOption.create(helper.createClient(), userInput,  function(err, item){
         if(err){
           return done(err);
         }
-        item.id.should.equal(1);
-        item.name.should.equal("Test Site");
-        item.description.should.equal("A Site Description");
+        item.createdByUser.should.equal('user');
+        item.tnOptionGroups[0].numberFormat.should.equal('10digit');
+        item.tnOptionGroups[0].telephoneNumbers[0].should.equal('2018551020');
         done();
       });
     });
-    it("should create a  site (with default client)", function(done){
-      var data = {name: "Test Site", description: "A Site Description"};
-      helper.nock().post("/accounts/FakeAccountId/sites", helper.buildXml({site: data})).reply(201, "", {"Location": "/accounts/FakeAccountId/sites/1"});
-      helper.nock().get("/accounts/FakeAccountId/sites/1").reply(200, helper.xml.site, {"Content-Type": "application/xml"});
-      Site.create(data,  function(err, item){
+
+    it("should create a call forward number", function(done){
+      const userInput = {
+        customerOrderId: 'myOrderId',
+        tnOptionGroups: [
+          {
+            callForward: '6042661720',
+            telephoneNumbers: ['2018551020']
+          }
+        ]
+      }
+      const receivedData = {
+        customerOrderId: 'myOrderId',
+        tnOptionGroups: {
+          tnOptionGroup: [
+            {
+              callForward: '6042661720',
+              telephoneNumbers: {
+                telephoneNumber: ['2018551020']
+              }
+            }
+          ]
+        }
+      }
+      helper.nock().post("/accounts/FakeAccountId/tnoptions", helper.buildXml({tnOptionOrder: receivedData})).reply(201, "", {"Location": "/accounts/FakeAccountId/tnoptions/1"});
+      helper.nock().get("/accounts/FakeAccountId/tnoptions/1").reply(200, helper.xml.tnOption, {"Content-Type": "application/xml"});
+      TnOption.create(helper.createClient(), userInput,  function(err, item){
         if(err){
           return done(err);
         }
-        item.id.should.equal(1);
-        item.name.should.equal("Test Site");
-        item.description.should.equal("A Site Description");
+        item.createdByUser.should.equal('user');
+        item.tnOptionGroups[0].callForward.should.equal('6042661720');
+        item.tnOptionGroups[0].telephoneNumbers[0].should.equal('2018551020');
         done();
       });
     });
+
+    it("should change sms", function(done){
+      const userInput = {
+        customerOrderId: 'myOrderId',
+        tnOptionGroups: [
+          {
+            sms: 'on',
+            callForward: '6042661720',
+            telephoneNumbers: ['2018551020']
+          }
+        ]
+      }
+      const receivedData = {
+        customerOrderId: 'myOrderId',
+        tnOptionGroups: {
+          tnOptionGroup: [
+            {
+              sms: 'on',
+              callForward: '6042661720',
+              telephoneNumbers: {
+                telephoneNumber: ['2018551020']
+              }
+            }
+          ]
+        }
+      }
+      helper.nock().post("/accounts/FakeAccountId/tnoptions", helper.buildXml({tnOptionOrder: receivedData})).reply(201, "", {"Location": "/accounts/FakeAccountId/tnoptions/1"});
+      helper.nock().get("/accounts/FakeAccountId/tnoptions/1").reply(200, helper.xml.tnOption, {"Content-Type": "application/xml"});
+      TnOption.create(helper.createClient(), userInput,  function(err, item){
+        if(err){
+          return done(err);
+        }
+        item.createdByUser.should.equal('user');
+        item.tnOptionGroups[0].callForward.should.equal('6042661720');
+        item.tnOptionGroups[0].telephoneNumbers[0].should.equal('2018551020');
+        item.tnOptionGroups[0].sms.should.equal('on');
+        done();
+      });
+    });
+
     it("should fail on error status code", function(done){
-      var data = {name: "Test Site", description: "A Site Description"};
-      helper.nock().post("/accounts/FakeAccountId/sites").reply(400, "");
-      Site.create(helper.createClient(), data,  function(err, item){
+      const userInput = {
+        customerOrderId: 'myOrderId',
+        tnOptionGroups: [
+          {
+            sms: 'on',
+            callForward: '6042661720',
+            telephoneNumbers: ['2018551020']
+          }
+        ]
+      }
+      helper.nock().post("/accounts/FakeAccountId/tnoptions").reply(400, "");
+      TnOption.create(helper.createClient(), userInput,  function(err, item){
         if(err){
           return done();
         }
