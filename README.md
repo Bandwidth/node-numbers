@@ -882,6 +882,96 @@ numbers.TnReservation.get(id, function(err, tn){
   tn.delete(callback);
 });
 ```
+## TN Options
+
+### List TN Options
+
+```js
+const query = {
+  createdDateFrom : "2013-10-22T00:00:00.000Z",
+  orderDetails: true,
+  tn: 123456789
+}
+numbers.TnOption.list(client, query, (err, tnOptions) => {
+  if (err) {
+    console.error(err);
+  }
+  console.log(tnOptions);
+})
+```
+
+### Find a specific TN Option Order
+
+```js
+const tnOptionOrderId = 'fakeOrderId';
+numbers.TnOption.list(tnOptionOrderId, (err, tnOption) => {
+  if (err) {
+    console.error(err);
+  }
+  console.log(tnOptions);
+})
+```
+
+### Add a PortOutPasscode
+
+```
+const tnOptionsOrder = {
+  customerOrderId: 'myOrderId',
+  tnOptionGroups: [
+    {
+      portOutPasscode: 'mypass1',
+      telephoneNumbers: ['1234567890']
+    }
+  ]
+}
+numbers.TnOption.create(tnOptionsOrder, callback) //for callback example see TnOption.get
+```
+
+### Add a PortOutPasscode
+
+```
+const tnOptionsOrder = {
+  customerOrderId: 'myOrderId',
+  tnOptionGroups: [
+    {
+      portOutPasscode: 'mypass1',
+      telephoneNumbers: ['1234567890']
+    }
+  ]
+}
+numbers.TnOption.create(tnOptionsOrder, callback) //for callback example see TnOption.get
+```
+
+### Create Call Forward Number
+
+```
+const tnOptionsOrder = {
+  customerOrderId: 'myOrderId',
+  tnOptionGroups: [
+    {
+      callForward: '2345678901',
+      telephoneNumbers: ['1234567890']
+    }
+  ]
+}
+numbers.TnOption.create(tnOptionsOrder, callback) //for callback example see TnOption.get
+```
+
+### Enable SMS
+
+```
+const tnOptionsOrder = {
+  customerOrderId: 'myOrderId',
+  tnOptionGroups: [
+    {
+      sms: 'on',
+      telephoneNumbers: ['1234567890']
+    }
+  ]
+}
+numbers.TnOption.create(tnOptionsOrder, callback) //for callback example see TnOption.get
+```
+
 
 ## Hosted Messaging
 
