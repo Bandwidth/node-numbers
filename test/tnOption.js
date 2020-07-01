@@ -117,8 +117,7 @@ describe("TnOption", function(){
           ]
         }
       }
-      helper.nock().post("/accounts/FakeAccountId/tnoptions", helper.buildXml({tnOptionOrder: receivedData})).reply(201, "", {"Location": "/accounts/FakeAccountId/tnoptions/1"});
-      helper.nock().get("/accounts/FakeAccountId/tnoptions/1").reply(200, helper.xml.tnOption, {"Content-Type": "application/xml"});
+      helper.nock().post("/accounts/FakeAccountId/tnoptions", helper.buildXml({tnOptionOrder: receivedData})).reply(201, helper.xml.tnOption, {"Location": "/accounts/FakeAccountId/tnoptions/1"});
       TnOption.create(helper.createClient(), userInput,  function(err, item){
         if(err){
           return done(err);
@@ -153,8 +152,7 @@ describe("TnOption", function(){
           ]
         }
       }
-      helper.nock().post("/accounts/FakeAccountId/tnoptions", helper.buildXml({tnOptionOrder: receivedData})).reply(201, "", {"Location": "/accounts/FakeAccountId/tnoptions/1"});
-      helper.nock().get("/accounts/FakeAccountId/tnoptions/1").reply(200, helper.xml.tnOption, {"Content-Type": "application/xml"});
+      helper.nock().post("/accounts/FakeAccountId/tnoptions", helper.buildXml({tnOptionOrder: receivedData})).reply(201, helper.xml.tnOption, {"Location": "/accounts/FakeAccountId/tnoptions/1"});
       TnOption.create(helper.createClient(), userInput,  function(err, item){
         if(err){
           return done(err);
@@ -191,8 +189,7 @@ describe("TnOption", function(){
           ]
         }
       }
-      helper.nock().post("/accounts/FakeAccountId/tnoptions", helper.buildXml({tnOptionOrder: receivedData})).reply(201, "", {"Location": "/accounts/FakeAccountId/tnoptions/1"});
-      helper.nock().get("/accounts/FakeAccountId/tnoptions/1").reply(200, helper.xml.tnOption, {"Content-Type": "application/xml"});
+      helper.nock().post("/accounts/FakeAccountId/tnoptions", helper.buildXml({tnOptionOrder: receivedData})).reply(201, helper.xml.tnOption, {"Location": "/accounts/FakeAccountId/tnoptions/1"});
       TnOption.create(helper.createClient(), userInput,  function(err, item){
         if(err){
           return done(err);
