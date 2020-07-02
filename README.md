@@ -914,7 +914,7 @@ numbers.TnOption.get(tnOptionOrderId, (err, tnOption) => {
 
 ### Add a PortOutPasscode
 
-```
+```js
 const tnOptionsOrder = {
   customerOrderId: 'myOrderId',
   tnOptionGroups: [
@@ -929,7 +929,7 @@ numbers.TnOption.create(tnOptionsOrder, callback) //for callback example see TnO
 
 ### Create Call Forward Number
 
-```
+```js
 const tnOptionsOrder = {
   customerOrderId: 'myOrderId',
   tnOptionGroups: [
@@ -944,7 +944,7 @@ numbers.TnOption.create(tnOptionsOrder, callback) //for callback example see TnO
 
 ### Enable SMS
 
-```
+```js
 const tnOptionsOrder = {
   customerOrderId: 'myOrderId',
   tnOptionGroups: [
