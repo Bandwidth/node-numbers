@@ -256,20 +256,117 @@ describe("SipPeer", function(){
       peer.client = helper.createClient();
       peer.removeApplication(done);
     });
+    it("should fail on an error", function(done) {
+      var appData = 'REMOVE';
+      var span = helper.nock().put("/accounts/FakeAccountId/sites/1/sippeers/10/products/messaging/applicationSettings", helper.buildXml({applicationsSettings: appData})).reply(400);
+      var peer = new SipPeer();
+      peer.id = 10;
+      peer.siteId = 1;
+      peer.client = helper.createClient();
+      peer.removeApplication(function(err) {
+        if (err) {
+          done();
+        } else {
+          done(new Error('An error is expected'));
+        }
+      });
+    });
   });
-  it("should fail on an error", function(done) {
-    var appData = 'REMOVE';
-    var span = helper.nock().put("/accounts/FakeAccountId/sites/1/sippeers/10/products/messaging/applicationSettings", helper.buildXml({applicationsSettings: appData})).reply(400);
-    var peer = new SipPeer();
-    peer.id = 10;
-    peer.siteId = 1;
-    peer.client = helper.createClient();
-    peer.removeApplication(function(err) {
-      if (err) {
-        done();
-      } else {
-        done(new Error('An error is expected'));
-      }
+
+  describe("#getSmsSettings", function() {
+    it("should get SMS settings", function(done) {
+      var span = helper.nock().get("/accounts/FakeAccountId/sites/1/sippeers/10/products/messaging/features/sms").reply(200, helper.xml.peerSmsSettings, {"Content-Type": "application/xml"});
+      var peer = new SipPeer();
+      peer.id = 10;
+      peer.siteId = 1;
+      peer.client = helper.createClient();
+      peer.getSmsSettings(function(err, results) {
+        if (err) {
+          done(err);
+        } else {
+          console.log(results)
+          results.sipPeerSmsFeatureSettings.tollFree.should.equal(true);
+          results.sipPeerSmsFeatureSettings.protocol.should.equal('SMPP');
+          results.smppHosts.smppHost.length.should.equal(1);
+          results.smppHosts.smppHost[0].hostId.should.equal(18);
+          done();
+        }
+      });
+    });
+
+    it("should get SMS settings", function(done) {
+      var span = helper.nock().get("/accounts/FakeAccountId/sites/1/sippeers/10/products/messaging/features/sms").reply(400, {"Content-Type": "application/xml"});
+      var peer = new SipPeer();
+      peer.id = 10;
+      peer.siteId = 1;
+      peer.client = helper.createClient();
+      peer.getSmsSettings(function(err, results) {
+        if (err) {
+          done();
+        } else {
+          done(new Error('An error is expected'));
+        }
+      });
+    });
+  });
+  describe("#deleteSmsSettings", function() {
+    it("should delete SMS settings", function(done) {
+      var span = helper.nock().delete("/accounts/FakeAccountId/sites/1/sippeers/10/products/messaging/features/sms").reply(200);
+      var peer = new SipPeer();
+      peer.id = 10;
+      peer.siteId = 1;
+      peer.client = helper.createClient();
+      peer.deleteSmsSettings(done);
+    });
+
+    it("should delete SMS settings", function(done) {
+      var span = helper.nock().delete("/accounts/FakeAccountId/sites/1/sippeers/10/products/messaging/features/sms").reply(400);
+      var peer = new SipPeer();
+      peer.id = 10;
+      peer.siteId = 1;
+      peer.client = helper.createClient();
+      peer.deleteSmsSettings(function (err) {
+        if (err) {
+          done();
+        } else {
+          done(new Error('An error is expected'));          
+        }
+      });
+    });
+  });
+  describe("#getSmsSettings", function() {
+    it("should get SMS settings", function(done) {
+      var span = helper.nock().put("/accounts/FakeAccountId/sites/1/sippeers/10/products/messaging/features/sms", helper.buildXml({applicationsSettings: appData})).reply(200, helper.xml.peerApplications, {"Content-Type": "application/xml"});
+      var peer = new SipPeer();
+      peer.id = 10;
+      peer.siteId = 1;
+      peer.client = helper.createClient();
+      var appData = {httpMessagingV2AppId: 100}
+      peer.editApplication(appData, function(err, results) {
+        if (err) {
+          done(err);
+        } else {
+          results.httpMessagingV2AppId.should.equal(100)
+          done();
+        }
+      });
+    });
+
+    it("should fail on an error", function(done) {
+      var appData = {httpMessagingV2AppId: 100}
+      var span = helper.nock().put("/accounts/FakeAccountId/sites/1/sippeers/10/products/messaging/applicationSettings", helper.buildXml({applicationsSettings: appData})).reply(400);
+      var peer = new SipPeer();
+      peer.id = 10;
+      peer.siteId = 1;
+      peer.client = helper.createClient();
+      var appData = {httpMessagingV2AppId: 100}
+      peer.editApplication(appData, function(err, results) {
+        if (err) {
+          done();
+        } else {
+          done(new Error('An error is expected'));
+        }
+      });
     });
   });
 });
