@@ -228,6 +228,23 @@ describe("SipPeer", function(){
         }
       });
     });
+
+    it("should fail on an error", function(done) {
+      var appData = {httpMessagingV2AppId: 100}
+      var span = helper.nock().put("/accounts/FakeAccountId/sites/1/sippeers/10/products/messaging/applicationSettings", helper.buildXml({applicationsSettings: appData})).reply(400);
+      var peer = new SipPeer();
+      peer.id = 10;
+      peer.siteId = 1;
+      peer.client = helper.createClient();
+      var appData = {httpMessagingV2AppId: 100}
+      peer.editApplication(appData, function(err, results) {
+        if (err) {
+          done();
+        } else {
+          done(new Error('An error is expected'));
+        }
+      });
+    });
   });
   describe("#removeApplication", function() {
     it("should remove application", function(done) {
@@ -240,5 +257,19 @@ describe("SipPeer", function(){
       peer.removeApplication(done);
     });
   });
-
+  it("should fail on an error", function(done) {
+    var appData = 'REMOVE';
+    var span = helper.nock().put("/accounts/FakeAccountId/sites/1/sippeers/10/products/messaging/applicationSettings", helper.buildXml({applicationsSettings: appData})).reply(400);
+    var peer = new SipPeer();
+    peer.id = 10;
+    peer.siteId = 1;
+    peer.client = helper.createClient();
+    peer.removeApplication(function(err) {
+      if (err) {
+        done();
+      } else {
+        done(new Error('An error is expected'));
+      }
+    });
+  });
 });
