@@ -719,6 +719,31 @@ numbers.SipPeer.get(function(err,sipPeer){
   sipPeer.removeApplication(callback);
 ```
 
+### SipPeer SMS settings
+
+```Javascript
+numbers.SipPeer.get(function(err,sipPeer){
+  // Get the sms settings associated with the peer
+  sipPeer.getSmsSettings(callback);
+
+  var desiredsettings = {
+    sipPeerSmsFeatureSettings: {
+      tollFree: true,
+      zone1: false,
+      zone2: true,
+      protocol: "HTTP"
+    }
+  };
+  //Change settings
+  sipPeer.editSmsSettings(desiredsettings, callback);
+
+  //Create settings
+  sipPeer.createSmsSettings(desiredsettings, callback);
+
+  //Delete
+  sipPeer.deleteSmsSettings(callback);
+```
+
 
 ## Sites
 
