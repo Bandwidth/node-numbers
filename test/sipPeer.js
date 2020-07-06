@@ -284,7 +284,6 @@ describe("SipPeer", function(){
         if (err) {
           done(err);
         } else {
-          console.log(results)
           results.sipPeerSmsFeatureSettings.tollFree.should.equal(true);
           results.sipPeerSmsFeatureSettings.protocol.should.equal('SMPP');
           results.smppHosts.smppHost.length.should.equal(1);
@@ -294,7 +293,7 @@ describe("SipPeer", function(){
       });
     });
 
-    it("should get SMS settings", function(done) {
+    it("should fail on error status code", function(done) {
       var span = helper.nock().get("/accounts/FakeAccountId/sites/1/sippeers/10/products/messaging/features/sms").reply(400, {"Content-Type": "application/xml"});
       var peer = new SipPeer();
       peer.id = 10;
@@ -319,7 +318,7 @@ describe("SipPeer", function(){
       peer.deleteSmsSettings(done);
     });
 
-    it("should delete SMS settings", function(done) {
+    it("should fail on error status code", function(done) {
       var span = helper.nock().delete("/accounts/FakeAccountId/sites/1/sippeers/10/products/messaging/features/sms").reply(400);
       var peer = new SipPeer();
       peer.id = 10;
@@ -329,38 +328,151 @@ describe("SipPeer", function(){
         if (err) {
           done();
         } else {
-          done(new Error('An error is expected'));          
+          done(new Error('An error is expected'));
         }
       });
     });
   });
-  describe("#getSmsSettings", function() {
-    it("should get SMS settings", function(done) {
-      var span = helper.nock().put("/accounts/FakeAccountId/sites/1/sippeers/10/products/messaging/features/sms", helper.buildXml({applicationsSettings: appData})).reply(200, helper.xml.peerApplications, {"Content-Type": "application/xml"});
+  describe("#editSmsSettings", function() {
+    it("should create SMS settings", function(done) {
+      var settingsData = {
+        sipPeerSmsFeatureSettings: {
+          tollFree: true,
+          shortCode: true,
+          A2pLongCode: 'DefaultOff',
+          zone1:true,
+          zone2:true,
+          zone3:true,
+          zone4:true,
+          zone5:true,
+        },
+        smppHosts: {
+          smppHost: [
+            {
+              priority:0,
+              connectionType: 'RECEIVER_ONLY',
+              hostId: 18
+            }
+          ]
+        }
+      }
+      var span = helper.nock().put("/accounts/FakeAccountId/sites/1/sippeers/10/products/messaging/features/sms", helper.buildXml({sipPeerSmsFeature: settingsData})).reply(200, helper.xml.peerSmsSettings, {"Content-Type": "application/xml"});
       var peer = new SipPeer();
       peer.id = 10;
       peer.siteId = 1;
       peer.client = helper.createClient();
-      var appData = {httpMessagingV2AppId: 100}
-      peer.editApplication(appData, function(err, results) {
+      peer.editSmsSettings(settingsData, function(err, results) {
         if (err) {
           done(err);
         } else {
-          results.httpMessagingV2AppId.should.equal(100)
+          results.sipPeerSmsFeatureSettings.zone5.should.equal(true);
           done();
         }
       });
     });
 
-    it("should fail on an error", function(done) {
-      var appData = {httpMessagingV2AppId: 100}
-      var span = helper.nock().put("/accounts/FakeAccountId/sites/1/sippeers/10/products/messaging/applicationSettings", helper.buildXml({applicationsSettings: appData})).reply(400);
+    it("should fail for error status code", function(done) {
+      var settingsData = {
+        sipPeerSmsFeatureSettings: {
+          tollFree: true,
+          shortCode: true,
+          A2pLongCode: 'DefaultOff',
+          zone1:true,
+          zone2:true,
+          zone3:true,
+          zone4:true,
+          zone5:true,
+        },
+        smppHosts: {
+          smppHost: [
+            {
+              priority:0,
+              connectionType: 'RECEIVER_ONLY',
+              hostId: 18
+            }
+          ]
+        }
+      }
+      var span = helper.nock().put("/accounts/FakeAccountId/sites/1/sippeers/10/products/messaging/features/sms", helper.buildXml({sipPeerSmsFeature: settingsData})).reply(400);
       var peer = new SipPeer();
       peer.id = 10;
       peer.siteId = 1;
       peer.client = helper.createClient();
-      var appData = {httpMessagingV2AppId: 100}
-      peer.editApplication(appData, function(err, results) {
+      peer.editSmsSettings(settingsData, function(err, results) {
+        if (err) {
+          done();
+        } else {
+          done(new Error('An error is expected'));
+        }
+      });
+    });
+  });
+  describe("#createSmsSettings", function() {
+    it("should create SMS settings", function(done) {
+      var settingsData = {
+        sipPeerSmsFeatureSettings: {
+          tollFree: true,
+          shortCode: true,
+          A2pLongCode: 'DefaultOff',
+          zone1:true,
+          zone2:true,
+          zone3:true,
+          zone4:true,
+          zone5:true,
+        },
+        smppHosts: {
+          smppHost: [
+            {
+              priority:0,
+              connectionType: 'RECEIVER_ONLY',
+              hostId: 18
+            }
+          ]
+        }
+      }
+      var span = helper.nock().post("/accounts/FakeAccountId/sites/1/sippeers/10/products/messaging/features/sms", helper.buildXml({sipPeerSmsFeature: settingsData})).reply(200, helper.xml.peerSmsSettings, {"Content-Type": "application/xml"});
+      var peer = new SipPeer();
+      peer.id = 10;
+      peer.siteId = 1;
+      peer.client = helper.createClient();
+      peer.createSmsSettings(settingsData, function(err, results) {
+        if (err) {
+          done(err);
+        } else {
+          results.sipPeerSmsFeatureSettings.zone5.should.equal(true);
+          done();
+        }
+      });
+    });
+
+    it("should fail for error status code", function(done) {
+      var settingsData = {
+        sipPeerSmsFeatureSettings: {
+          tollFree: true,
+          shortCode: true,
+          A2pLongCode: 'DefaultOff',
+          zone1:true,
+          zone2:true,
+          zone3:true,
+          zone4:true,
+          zone5:true,
+        },
+        smppHosts: {
+          smppHost: [
+            {
+              priority:0,
+              connectionType: 'RECEIVER_ONLY',
+              hostId: 18
+            }
+          ]
+        }
+      }
+      var span = helper.nock().post("/accounts/FakeAccountId/sites/1/sippeers/10/products/messaging/features/sms", helper.buildXml({sipPeerSmsFeature: settingsData})).reply(400);
+      var peer = new SipPeer();
+      peer.id = 10;
+      peer.siteId = 1;
+      peer.client = helper.createClient();
+      peer.createSmsSettings(settingsData, function(err, results) {
         if (err) {
           done();
         } else {
