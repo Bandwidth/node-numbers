@@ -22,7 +22,7 @@ This SDK stable for node versions 7 and above
 | 1.2.1   | Fixed Subscription List functionality. Example code at: [examples/subscription_list_and_delete](examples/subscription_list_and_delete.js) |
 | 1.2.2   | Readme Typo for `RemoveImportedTnOrder`                                                                                                   |
 | 1.3.0 | Added Emergency Calling Notification endpoints                                                                                              |
-| 1.4.0   | Added TnOptions endpoints and functionality.                                                                                                   |
+| 1.4.0   | Added TnOptions endpoints and functionality, along with SMS options on sip peers.                                                         |
 
 
 ## Install
@@ -718,6 +718,31 @@ numbers.SipPeer.get(function(err,sipPeer){
 
   // Dissociate all applications with this peer
   sipPeer.removeApplication(callback);
+```
+
+### SipPeer SMS settings
+
+```Javascript
+numbers.SipPeer.get(function(err,sipPeer){
+  // Get the sms settings associated with the peer
+  sipPeer.getSmsSettings(callback);
+
+  var desiredsettings = {
+    sipPeerSmsFeatureSettings: {
+      tollFree: true,
+      zone1: false,
+      zone2: true,
+      protocol: "HTTP"
+    }
+  };
+  //Change settings
+  sipPeer.editSmsSettings(desiredsettings, callback);
+
+  //Create settings
+  sipPeer.createSmsSettings(desiredsettings, callback);
+
+  //Delete
+  sipPeer.deleteSmsSettings(callback);
 ```
 
 
