@@ -21,7 +21,8 @@ This SDK stable for node versions 7 and above
 | 1.2.0   | Added CSR lookup functionality                                                                                                            |
 | 1.2.1   | Fixed Subscription List functionality. Example code at: [examples/subscription_list_and_delete](examples/subscription_list_and_delete.js) |
 | 1.2.2   | Readme Typo for `RemoveImportedTnOrder`                                                                                                   |
-| 1.3.0 | Added Emergency Calling Notification endpoints |
+| 1.3.0 | Added Emergency Calling Notification endpoints                                                                                              |
+| 1.4.0   | Added TnOptions endpoints and functionality, along with SMS options on sip peers.                                                         |
 
 
 ## Install
@@ -907,6 +908,81 @@ numbers.TnReservation.get(id, function(err, tn){
   tn.delete(callback);
 });
 ```
+## TN Options
+
+### List TN Options
+
+```js
+const query = {
+  createdDateFrom : "2013-10-22T00:00:00.000Z",
+  orderDetails: true,
+  tn: 123456789
+}
+numbers.TnOption.list(client, query, (err, tnOptions) => {
+  if (err) {
+    console.error(err);
+  }
+  console.log(tnOptions);
+})
+```
+
+### Find a specific TN Option Order
+
+```js
+const tnOptionOrderId = 'fakeOrderId';
+numbers.TnOption.get(tnOptionOrderId, (err, tnOption) => {
+  if (err) {
+    console.error(err);
+  }
+  console.log(tnOptions);
+})
+```
+
+### Add a PortOutPasscode
+
+```js
+const tnOptionsOrder = {
+  customerOrderId: 'myOrderId',
+  tnOptionGroups: [
+    {
+      portOutPasscode: 'mypass1',
+      telephoneNumbers: ['1234567890']
+    }
+  ]
+}
+numbers.TnOption.create(tnOptionsOrder, callback) //for callback example see TnOption.get
+```
+
+### Create Call Forward Number
+
+```js
+const tnOptionsOrder = {
+  customerOrderId: 'myOrderId',
+  tnOptionGroups: [
+    {
+      callForward: '2345678901',
+      telephoneNumbers: ['1234567890']
+    }
+  ]
+}
+numbers.TnOption.create(tnOptionsOrder, callback) //for callback example see TnOption.get
+```
+
+### Enable SMS
+
+```js
+const tnOptionsOrder = {
+  customerOrderId: 'myOrderId',
+  tnOptionGroups: [
+    {
+      sms: 'on',
+      telephoneNumbers: ['1234567890']
+    }
+  ]
+}
+numbers.TnOption.create(tnOptionsOrder, callback) //for callback example see TnOption.get
+```
+
 
 ## Hosted Messaging
 
