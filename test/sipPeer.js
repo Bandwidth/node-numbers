@@ -482,3 +482,175 @@ describe("SipPeer", function(){
     });
   });
 });
+
+describe("#getMmsSettings", function() {
+  it("should get MMS settings", function(done) {
+    var span = helper.nock().get("/accounts/FakeAccountId/sites/1/sippeers/10/products/messaging/features/mms").reply(200, helper.xml.peerMmsSettings, {"Content-Type": "application/xml"});
+    var peer = new SipPeer();
+    peer.id = 10;
+    peer.siteId = 1;
+    peer.client = helper.createClient();
+    peer.getMmsSettings(function(err, results) {
+      if (err) {
+        done(err);
+      } else {
+        results.mmsSettings.protocol.should.equal('HTTP');
+        console.log(results);
+        results.protocols.hTTP.httpSettings.proxyPeerId.should.equal(500017);
+        done();
+      }
+    });
+  });
+
+  it("should fail on error status code", function(done) {
+    var span = helper.nock().get("/accounts/FakeAccountId/sites/1/sippeers/10/products/messaging/features/mms").reply(400, {"Content-Type": "application/xml"});
+    var peer = new SipPeer();
+    peer.id = 10;
+    peer.siteId = 1;
+    peer.client = helper.createClient();
+    peer.getSmsSettings(function(err, results) {
+      if (err) {
+        done();
+      } else {
+        done(new Error('An error is expected'));
+      }
+    });
+  });
+});
+describe("#deleteMmsSettings", function() {
+  it("should delete MMS settings", function(done) {
+    var span = helper.nock().delete("/accounts/FakeAccountId/sites/1/sippeers/10/products/messaging/features/mms").reply(200);
+    var peer = new SipPeer();
+    peer.id = 10;
+    peer.siteId = 1;
+    peer.client = helper.createClient();
+    peer.deleteMmsSettings(done);
+  });
+
+  it("should fail on error status code", function(done) {
+    var span = helper.nock().delete("/accounts/FakeAccountId/sites/1/sippeers/10/products/messaging/features/mms").reply(400);
+    var peer = new SipPeer();
+    peer.id = 10;
+    peer.siteId = 1;
+    peer.client = helper.createClient();
+    peer.deleteMmsSettings(function (err) {
+      if (err) {
+        done();
+      } else {
+        done(new Error('An error is expected'));
+      }
+    });
+  });
+});
+describe("#editMmsSettings", function() {
+  it("should create MMS settings", function(done) {
+    var settingsData = {
+      mmsSettings: {
+        protocol: 'HTTP'
+      },
+      protocols: {
+        HTTP: {
+          httpSettings: {
+            proxyPeerId: 500017
+          }
+        }
+      }
+    }
+    var span = helper.nock().put("/accounts/FakeAccountId/sites/1/sippeers/10/products/messaging/features/mms", helper.buildXml({mmsFeature: settingsData})).reply(200, helper.xml.peerMmsSettings, {"Content-Type": "application/xml"});
+    var peer = new SipPeer();
+    peer.id = 10;
+    peer.siteId = 1;
+    peer.client = helper.createClient();
+    peer.editMmsSettings(settingsData, function(err, results) {
+      if (err) {
+        done(err);
+      } else {
+        results.protocols.hTTP.httpSettings.proxyPeerId.should.equal(500017);
+        done();
+      }
+    });
+  });
+
+  it("should fail for error status code", function(done) {
+    var settingsData = {
+      mmsSettings: {
+        protocol: 'HTTP'
+      },
+      protocols: {
+        HTTP: {
+          httpSettings: {
+            proxyPeerId: 500017
+          }
+        }
+      }
+    }
+    var span = helper.nock().put("/accounts/FakeAccountId/sites/1/sippeers/10/products/messaging/features/mms", helper.buildXml({mmsFeature: settingsData})).reply(400);
+    var peer = new SipPeer();
+    peer.id = 10;
+    peer.siteId = 1;
+    peer.client = helper.createClient();
+    peer.editMmsSettings(settingsData, function(err, results) {
+      if (err) {
+        done();
+      } else {
+        done(new Error('An error is expected'));
+      }
+    });
+  });
+});
+describe("#createMmsSettings", function() {
+  it("should create MMS settings", function(done) {
+    var settingsData = {
+      mmsSettings: {
+        protocol: 'HTTP'
+      },
+      protocols: {
+        HTTP: {
+          httpSettings: {
+            proxyPeerId: 500017
+          }
+        }
+      }
+    }
+    var span = helper.nock().post("/accounts/FakeAccountId/sites/1/sippeers/10/products/messaging/features/mms", helper.buildXml({mmsFeature: settingsData})).reply(200, helper.xml.peerMmsSettings, {"Content-Type": "application/xml"});
+    var peer = new SipPeer();
+    peer.id = 10;
+    peer.siteId = 1;
+    peer.client = helper.createClient();
+    peer.createMmsSettings(settingsData, function(err, results) {
+      if (err) {
+        done(err);
+      } else {
+        results.protocols.hTTP.httpSettings.proxyPeerId.should.equal(500017);
+        done();
+      }
+    });
+  });
+
+  it("should fail for error status code", function(done) {
+    var settingsData = {
+      mmsSettings: {
+        protocol: 'HTTP'
+      },
+      protocols: {
+        HTTP: {
+          httpSettings: {
+            proxyPeerId: 500017
+          }
+        }
+      }
+    }
+    var span = helper.nock().post("/accounts/FakeAccountId/sites/1/sippeers/10/products/messaging/features/mms", helper.buildXml({mmsFeature: settingsData})).reply(400);
+    var peer = new SipPeer();
+    peer.id = 10;
+    peer.siteId = 1;
+    peer.client = helper.createClient();
+    peer.createMmsSettings(settingsData, function(err, results) {
+      if (err) {
+        done();
+      } else {
+        done(new Error('An error is expected'));
+      }
+    });
+  });
+});
