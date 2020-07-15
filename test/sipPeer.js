@@ -168,7 +168,6 @@ describe("SipPeer", function(){
           return done(err);
         }
         span.isDone().should.be.true;
-        console.log(item);
         item.fullNumber.should.equal("9195551212");
         done();
       });
