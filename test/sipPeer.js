@@ -140,6 +140,22 @@ describe("SipPeer", function(){
         done();
       });
     });
+    it("should return list of numbers with a query", function(done){
+      var span = helper.nock().get("/accounts/FakeAccountId/sites/1/sippeers/10/tns?page=1&size=100").reply(200, helper.xml.sipPeerTns, {"Content-Type": "application/xml"});
+      var peer = new SipPeer();
+      peer.id = 10;
+      peer.siteId = 1;
+      peer.client = helper.createClient();
+      peer.getTns({page:1, size:100}, function(err, list){
+        if(err){
+          return done(err);
+        }
+        span.isDone().should.be.true;
+        list.length.should.equal(17);
+        list[0].fullNumber.should.equal("3034162216");
+        done();
+      });
+    });
 
     it("should return a number", function(done){
       var span = helper.nock().get("/accounts/FakeAccountId/sites/1/sippeers/10/tns/12345").reply(200, helper.xml.sipPeerTn, {"Content-Type": "application/xml"});
