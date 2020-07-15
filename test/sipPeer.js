@@ -512,7 +512,6 @@ describe("#getMmsSettings", function() {
         done(err);
       } else {
         results.mmsSettings.protocol.should.equal('HTTP');
-        console.log(results);
         results.protocols.hTTP.httpSettings.proxyPeerId.should.equal(500017);
         done();
       }
