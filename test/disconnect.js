@@ -120,7 +120,9 @@ describe("Disconnect", function(){
           name: "test",
           _nameXmlElement: "name",
          disconnectTelephoneNumberOrderType: {
-           telephoneNumberList: [{telephoneNumber: "111"}, {telephoneNumber: "222"}]
+           telephoneNumberList: {
+            telephoneNumber: ["111", "222"]
+           }
          }
         }
       };
@@ -132,9 +134,11 @@ describe("Disconnect", function(){
         disconnectTelephoneNumberOrder: {
           name: "test",
           _nameXmlElement: "name",
-         disconnectTelephoneNumberOrderType: {
-           telephoneNumberList: [{telephoneNumber: "111"}, {telephoneNumber: "222"}]
-         }
+          disconnectTelephoneNumberOrderType: {
+            telephoneNumberList: {
+             telephoneNumber: ["111", "222"]
+            }
+          }
         }
       };
       helper.nock().post("/accounts/FakeAccountId/disconnects", helper.buildXml(data)).reply(200);

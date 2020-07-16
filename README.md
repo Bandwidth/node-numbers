@@ -745,6 +745,36 @@ numbers.SipPeer.get(function(err,sipPeer){
   sipPeer.deleteSmsSettings(callback);
 ```
 
+### SipPeer SMS settings
+
+```Javascript
+numbers.SipPeer.get(function(err,sipPeer){
+  // Get the mms settings associated with the peer
+  sipPeer.getMmsSettings(callback);
+
+  var desiredsettings = {
+      mmsSettings: {
+        protocol: 'HTTP'
+      },
+      protocols: {
+        HTTP: {
+          httpSettings: {
+            proxyPeerId: 500017
+          }
+        }
+      }
+    }
+  //Change settings
+  sipPeer.editMmsSettings(desiredsettings, callback);
+
+  //Create settings
+  sipPeer.createMmsSettings(desiredsettings, callback);
+
+  //Delete
+  sipPeer.deleteMmsSettings(callback);
+```
+
+
 
 ## Sites
 
