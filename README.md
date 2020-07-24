@@ -214,8 +214,30 @@ numbers.Application.get(id, (err, app) => {
 
 ## Available Numbers
 
+### Available Numbers Area Code
+
 ```Javascript
-numbers.AvailableNumbers.list(query, callback);
+var res = await numbers.AvailableNumbers.listAsync({areaCode:"919", quantity:"5"});
+console.log(res);
+```
+
+### Available Numbers Area Code And Local Vanity
+
+```Javascript
+var res = await numbers.AvailableNumbers.listAsync({areaCode:"919", localVanity:"298", quantity:"5"});
+console.log(res);
+
+res = await numbers.AvailableNumbers.listAsync({areaCode:"919", localVanity:"2982", quantity:"5"});
+console.log(res);
+
+res = await numbers.AvailableNumbers.listAsync({areaCode:"919", localVanity:"29822", quantity:"5"});
+console.log(res);
+
+res = await numbers.AvailableNumbers.listAsync({areaCode:"919", localVanity:"298227", quantity:"5"});
+console.log(res);
+
+res = await numbers.AvailableNumbers.listAsync({areaCode:"919", localVanity:"2982272", quantity:"5"});
+console.log(res);
 ```
 
 ## Available NpaNxx
