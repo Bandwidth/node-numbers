@@ -1378,5 +1378,10 @@ catch (e) {
 ## Set SipPeer Origination Settings
 
 ```js
+var sipPeer = <create/get sip peer>;
 
+var voiceHttpSettings = {
+  httpVoiceV2AppId: "abcd-1234" 
+}
+await sipPeer.createOriginationSettingsAsync({voiceProtocol: "HTTP", httpSettings: voiceHttpSettings})
 ```
