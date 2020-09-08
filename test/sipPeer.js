@@ -669,3 +669,23 @@ describe("#createMmsSettings", function() {
     });
   });
 });
+describe("#OriginationSettings", function() {
+  it("should create origination settings", function(done) {
+    var settingsData = {
+      voiceProtocol: "HTTP"
+    }
+    var span = helper.nock().post("/accounts/FakeAccountId/sites/1/sippeers/10/products/origination/settings", helper.buildXml({sipPeerOriginationSettings: settingsData})).reply(200, helper.xml.originationSettings, {"Content-Type": "application/xml"});
+    var peer = new SipPeer();
+    peer.id = 10;
+    peer.siteId = 1;
+    peer.client = helper.createClient();
+    peer.createOriginationSettings(settingsData, function(err, results) {
+      if (err) {
+        done(err);
+      } else {
+        results.voiceProtocol.should.equal("HTTP");
+        done();
+      }
+    });
+  });
+});
