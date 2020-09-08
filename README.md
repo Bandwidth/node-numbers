@@ -23,6 +23,7 @@ This SDK stable for node versions 7 and above
 | 1.2.2   | Readme Typo for `RemoveImportedTnOrder`                                                                                                   |
 | 1.3.0 | Added Emergency Calling Notification endpoints                                                                                              |
 | 1.4.0   | Added TnOptions endpoints and functionality, along with SMS options on sip peers.                                                         |
+| 1.6.0 | Added create origination settings for sip peers |
 
 
 ## Install
@@ -1372,4 +1373,15 @@ try {
 catch (e) {
   console.log(e);
 }
+```
+
+## Set SipPeer Origination Settings
+
+```js
+var sipPeer = <create/get sip peer>;
+
+var voiceHttpSettings = {
+  httpVoiceV2AppId: "abcd-1234" 
+}
+await sipPeer.createOriginationSettingsAsync({voiceProtocol: "HTTP", httpSettings: voiceHttpSettings})
 ```
