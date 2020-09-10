@@ -24,6 +24,7 @@ This SDK stable for node versions 7 and above
 | 1.3.0 | Added Emergency Calling Notification endpoints                                                                                              |
 | 1.4.0   | Added TnOptions endpoints and functionality, along with SMS options on sip peers.                                                         |
 | 1.6.0 | Added create origination settings for sip peers |
+| 1.7.0 | Added get products to account |
 
 
 ## Install
@@ -1384,4 +1385,10 @@ var voiceHttpSettings = {
   httpVoiceV2AppId: "abcd-1234" 
 }
 await sipPeer.createOriginationSettingsAsync({voiceProtocol: "HTTP", httpSettings: voiceHttpSettings})
+```
+
+## Get Account Products
+
+```js
+console.log(await numbers.Account.getProductsAsync());
 ```
