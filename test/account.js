@@ -24,4 +24,17 @@ describe("Account", function(){
       });
     });
   });
+  describe("#getProducts", function(){
+    it("should get account product info", function(done){
+      helper.nock().get("/accounts/FakeAccountId/products").reply(200, helper.xml.accountProducts, {"Content-Type": "application/xml"});
+      Account.getProducts(helper.createClient(), function(err, accountProducts){
+        if(err) {
+          return done(err);
+        }
+        accountProducts.product[0].name.should.eql("Termination");
+        accountProducts.product[1].name.should.eql("VirtualInventory");
+        done();
+      });
+    });
+  });
 });
