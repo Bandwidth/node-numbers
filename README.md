@@ -2,6 +2,9 @@
 
 NodeJs Client library for Bandwidth Numbers API
 
+## Developer Docs
+* [[Bandwidth API Developer Docs](https://dev.bandwidth.com)
+
 ## Other Node SDKs
 * Messaging: https://github.com/Bandwidth/node-messaging
 * Voice: https://github.com/Bandwidth/node-voice
