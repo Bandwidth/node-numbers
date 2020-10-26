@@ -704,6 +704,13 @@ numbers.SipPeer.get("id", callback);
 numbers.SipPeer.list(siteId, callback);
 ```
 
+### Update SIP Peer
+
+```Javascript
+sipPeer.peerName = "Some new name";
+sipPeer.update(sipPeer, callback);
+```
+
 ### Delete SIP Peer
 
 ```Javascript
