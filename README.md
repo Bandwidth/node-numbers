@@ -663,27 +663,19 @@ numbers.RateCenter.list(query, callback);
 var data = {
   peerName:"A New SIP Peer",
   isDefaultPeer:false,
-  shortMessagingProtocol:"SMPP",
+  shortMessagingProtocol:"SMPP",    // `HTTP` for use with the v2 messaging API 
   siteId:selectedSite,
-  voiceHosts:[
+  voiceHosts:[    // optional
     {
       host:{
         hostName:"1.1.1.1"
       }
     }
   ],
-  smsHosts:[
+  smsHosts:[    // optional 
     {
       host:{
         hostName:"1.1.1.1"
-      }
-    }
-  ],
-  terminationHosts:[
-    {
-      terminationHost:{
-        hostName:"1.1.1.1",
-        port:5060,
       }
     }
   ]
