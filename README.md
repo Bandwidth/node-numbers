@@ -28,6 +28,7 @@ This SDK stable for node versions 7 and above
 | 1.4.0   | Added TnOptions endpoints and functionality, along with SMS options on sip peers.                                                         |
 | 1.6.0 | Added create origination settings for sip peers |
 | 1.7.0 | Added get products to account |
+| 1.7.1 | Fix TnOptions.create() callback bug |
 
 
 ## Install
@@ -663,7 +664,7 @@ numbers.RateCenter.list(query, callback);
 var data = {
   peerName:"A New SIP Peer",
   isDefaultPeer:false,
-  shortMessagingProtocol:"SMPP",    // `HTTP` for use with the v2 messaging API 
+  shortMessagingProtocol:"SMPP",    // `HTTP` for use with the v2 messaging API
   siteId:selectedSite,
   voiceHosts:[    // optional
     {
@@ -672,7 +673,7 @@ var data = {
       }
     }
   ],
-  smsHosts:[    // optional 
+  smsHosts:[    // optional
     {
       host:{
         hostName:"1.1.1.1"
@@ -1377,7 +1378,7 @@ catch (e) {
 var sipPeer = <create/get sip peer>;
 
 var voiceHttpSettings = {
-  httpVoiceV2AppId: "abcd-1234" 
+  httpVoiceV2AppId: "abcd-1234"
 }
 await sipPeer.createOriginationSettingsAsync({voiceProtocol: "HTTP", httpSettings: voiceHttpSettings})
 ```
