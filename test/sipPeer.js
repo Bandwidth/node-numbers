@@ -100,6 +100,17 @@ describe("SipPeer", function(){
       });
     });
   });
+  describe("#update", function(){
+    it("should update a peer", function(done){
+      var data = {peerName: "Test Sip Peer" };
+      helper.nock().put("/accounts/FakeAccountId/sites/1/sippeers/10", helper.buildXml({sipPeer: data})).reply(200);
+      var peer = new SipPeer();
+      peer.client = helper.createClient();
+      peer.siteId = 1;
+      peer.id = 10;
+      peer.update(data, done);
+    });
+  });
   describe("#delete", function(){
     it("should remove a peer", function(done){
       helper.nock().delete("/accounts/FakeAccountId/sites/1/sippeers/10").reply(200);
