@@ -21,5 +21,5 @@ describe("coveredRateCenter", function(){
         });
       });
     });
-  });
+});
   
