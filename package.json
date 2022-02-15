@@ -4,7 +4,7 @@
   "description": "NodeJs Client library for Bandwidth Numbers API",
   "main": "index.js",
   "scripts": {
-    "test": "mocha",
+    "test": "NODE_ENV=production ./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha",
     "windows-test": "./node_modules/.bin/istanbul cover ./node_modules/mocha/bin/_mocha"
   },
   "repository": {
