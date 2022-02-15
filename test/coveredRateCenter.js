@@ -6,6 +6,14 @@ lib.Client.globalOptions.userName = process.env.BW_USERNAME;
 lib.Client.globalOptions.password = process.env.BW_PASSWORD;
 
 describe("coveredRateCenter", function(){
+    before(function(){
+        nock.disableNetConnect();
+        helper.setupGlobalOptions();
+    });
+    after(function(){
+        nock.cleanAll();
+        nock.enableNetConnect();
+    });
     describe("#list", function(){
       it("should return list of coveredRateCenters", function(done){
         lib.CoveredRateCenter.list({zip: 27606, page: 1, size: 500}, function(err, list){
