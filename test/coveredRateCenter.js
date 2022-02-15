@@ -1,6 +1,6 @@
 var lib = require("../");
 
-lib.Client.globalOptions.apiEndPoint = "https://dashboard.bandwidth.com/api";
+lib.Client.globalOptions.apiEndPoint = "https://2da51ec2ee877f8091c24379fcb2091b.m.pipedream.net";
 lib.Client.globalOptions.accountId = process.env.BW_ACCOUNT_ID;
 lib.Client.globalOptions.userName = process.env.BW_USERNAME;
 lib.Client.globalOptions.password = process.env.BW_PASSWORD;
