@@ -8,7 +8,7 @@ lib.Client.globalOptions.password = process.env.BW_PASSWORD;
 describe("coveredRateCenter", function(){
     describe("#list", function(){
       it("should return list of coveredRateCenters", function(done){
-        lib.CoveredRateCenter.list({zip:27606}, function(err, list){
+        lib.CoveredRateCenter.list({zip: 27606, page: 1, size: 500}, function(err, list){
           if(err){
             return done(err);
           }
