@@ -1,6 +1,7 @@
 var lib = require("../");
-var coveredRateCenter = lib.CoveredRateCenter;
+var config = require("./config");
 
+lib.Client.globalOptions.apiEndPoint = config.apiEndPoint;
 lib.Client.globalOptions.accountId = process.env.BW_ACCOUNT_ID;
 lib.Client.globalOptions.userName = process.env.BW_USERNAME;
 lib.Client.globalOptions.password = process.env.BW_PASSWORD;
@@ -8,7 +9,7 @@ lib.Client.globalOptions.password = process.env.BW_PASSWORD;
 describe("coveredRateCenter", function(){
     describe("#list", function(){
       it("should return list of coveredRateCenters", function(done){
-        coveredRateCenter.list({zip:27606}, function(err, list){
+        lib.CoveredRateCenter.list({zip:27606}, function(err, list){
           if(err){
             return done(err);
           }
