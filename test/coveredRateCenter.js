@@ -6,7 +6,7 @@ describe("coveredRateCenter", function(){
         lib.Client.globalOptions.accountId = process.env.BW_ACCOUNT_ID;
         lib.Client.globalOptions.userName = process.env.BW_USERNAME;
         lib.Client.globalOptions.password = process.env.BW_PASSWORD;
-        nock.disableNetConnect();
+        //nock.disableNetConnect();
     });
     after(function(){
         lib.Client.globalOptions.apiEndPoint = "https://dashboard.bandwidth.com/api";
