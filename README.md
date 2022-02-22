@@ -806,7 +806,7 @@ numbers.SipPeer.get(function(err,sipPeer){
 ## Sites
 
 ### Create A Site
-A site is what is called Location in the web UI.
+A site is what is called Sub-Account in the web UI.
 
 ```Javascript
 var site = {
