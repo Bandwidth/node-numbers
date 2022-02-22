@@ -212,7 +212,7 @@ describe("SipPeer", function(){
   describe("#moveTns", function(){
     it("should move numbers", function(done){
       var data = ["111", "222"];
-      var span = helper.nock().post("/accounts/FakeAccountId/sites/1/sippeers/10/movetns", helper.buildXml({sipPeerTelephoneNumbers: {fullNumber: data}})).reply(200);
+      var span = helper.nock().post("/accounts/FakeAccountId/movetns", helper.buildXml({sipPeerTelephoneNumbers: {fullNumber: data}})).reply(200);
       var peer = new SipPeer();
       peer.id = 10;
       peer.siteId = 1;
