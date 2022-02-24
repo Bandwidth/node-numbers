@@ -688,7 +688,7 @@ numbers.SipPeer.create(data, callback);
 ### Get SIP Peer
 
 ```Javascript
-numbers.SipPeer.get("id", callback);
+numbers.SipPeer.get(siteId, sipPeerId, callback);
 ```
 
 ### List SIP Peers
