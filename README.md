@@ -3,7 +3,7 @@
 NodeJs Client library for Bandwidth Numbers API
 
 ## Developer Docs
-* [[Bandwidth API Developer Docs](https://dev.bandwidth.com)
+* [Bandwidth API Developer Docs](https://dev.bandwidth.com)
 
 ## Other Node SDKs
 * Messaging: https://github.com/Bandwidth/node-messaging
@@ -150,6 +150,42 @@ Each entity has a get, list, create, update and delete method if appropriate.
 All properties are camel-cased for Javascript readability, and are converted on the fly to the proper
 case by the internals of the API when converted to XML.
 
+## Account
+### Get Move Tns Orders
+
+```js
+var orders = numbers.Account.getMoveTnsOrders(function(err, res){
+    if (err){
+        console.log(err)
+    };
+    console.log(res);
+});
+```
+
+### Create Move Tns Order
+
+```js
+numbers = ["19195551234", "19195554321"]
+data = {
+  CustomerOrderId: "abc123",
+  SiteId: "12345",    // DESTINATION sub-account (site)
+  SipPeerId: "54321"    // DESTINATION location (sip-peer) (optional - if not inclided, tn(s) will provision to default sip-peer)
+}
+data.telephoneNumbers = [numbers.map(number => {return {telephoneNumber: number}})];
+numbers.account.moveTns(client, data, callback);
+```
+
+### Get Move Tns Order Information
+
+```js
+numbers.account.getMoveTnsOrder(client, 'my-order-id-12345', callback);
+```
+
+### Get Move Tns Order History
+
+```js
+numbers.account.getMoveTnsOrderHistory(client, 'my-order-id-12345', callback);
+```
 
 ## Applications
 ### Create Voice Application
