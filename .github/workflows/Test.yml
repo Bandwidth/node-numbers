@@ -34,3 +34,4 @@ jobs:
           BW_ACCOUNT_ID: ${{ secrets.BW_ACCOUNT_ID }}
           BW_USERNAME: ${{ secrets.BW_USERNAME }}
           BW_PASSWORD: ${{ secrets.BW_PASSWORD }}
+          NODE_ENV: test
