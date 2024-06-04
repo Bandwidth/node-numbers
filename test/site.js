@@ -262,7 +262,7 @@ describe("Site", function(){
       var site = new Site();
       site.id = "1";
       site.client = helper.createClient();
-      site.getInserviceNumbers({}, function(err,res){
+      site.getInserviceNumbers({page: 1, size: 100}, function(err,res){
         if(err){
           return done(err);
         }
