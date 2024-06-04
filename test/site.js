@@ -258,7 +258,7 @@ describe("Site", function(){
   });
   describe("#getInserviceNumbers", function(done){
     it("should get a list of inservice numbers", function(done){
-      helper.nock().get("/accounts/FakeAccountId/sites/1/inserviceNumbers").reply(200, helper.xml.inServiceNumbers, {"Content-Type": "application/xml"});
+      helper.nock().get("/accounts/FakeAccountId/sites/1/inserviceNumbers?page=1&size=100").reply(200, helper.xml.inServiceNumbers, {"Content-Type": "application/xml"});
       var site = new Site();
       site.id = "1";
       site.client = helper.createClient();
