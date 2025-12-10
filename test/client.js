@@ -12,7 +12,6 @@ describe("client tests", function(){
     it("should create client instance", function(){
       var client = new Client();
       client.should.be.instanceof(Client);
-      Client().should.be.instanceof(Client);
     });
   });
   describe("#makeRequest", function(){
@@ -318,7 +317,7 @@ describe("client tests", function(){
   });
   describe("#concatAccountPath", function(){
     it("should return formatted url", function(){
-      var client = new Client({accountId: "accountId"});
+      var client = new Client("accountId");
       client.concatAccountPath("test").should.equal("/accounts/accountId/test");
       client.concatAccountPath("/test1").should.equal("/accounts/accountId/test1");
     });
