@@ -30,7 +30,7 @@
   },
   "devDependencies": {
     "istanbul": "^0.4.5",
-    "mocha": "^7.2.0",
+    "mocha": "^6.2.0",
     "nock": "^13.0.0",
     "should": "^10.0.0"
   },
