@@ -1,5 +1,8 @@
 var Client = require("../").Client;
 var nock = require("nock");
+var superagent = require("superagent");
+const helper = require("./helper");
+
 describe("client tests", function(){
   before(function(){
     nock.disableNetConnect();
@@ -12,6 +15,106 @@ describe("client tests", function(){
     it("should create client instance", function(){
       var client = new Client();
       client.should.be.instanceof(Client);
+    });
+  });
+  describe("#prepareRequest", function(){
+    const fakeUsername = "testuser";
+    const fakePassword = "testpassword";
+    const fakeClientId = "testClientId";
+    const fakeClientSecret = "testClientSecret";
+    const basicAuthEncoded = Buffer.from(`${fakeUsername}:${fakePassword}`).toString("base64");
+    const clientAuthEncoded = Buffer.from(`${fakeClientId}:${fakeClientSecret}`).toString("base64");
+
+    it("should return request with basic auth", function(){
+      const client = new Client("accountId", fakeUsername, fakePassword);
+      const req = superagent.get("https://test.com");
+      const expectedAuthHeader = "Basic " + basicAuthEncoded;
+
+      const preparedReq = client.prepareRequest(req);
+      preparedReq.should.have.property("_header");
+      preparedReq._header.should.have.property("authorization");
+      preparedReq._header.authorization.should.equal(expectedAuthHeader);
+    });
+    
+    it("should use supplied bearer token", function(){
+      const client = new Client("accountId");
+      client.tempAccessToken = "fake_token";
+      const req = superagent.get("https://test.com");
+      const expectedAuthHeader = "Bearer fake_token";
+
+      const preparedReq = client.prepareRequest(req);
+      preparedReq.should.have.property("_header");
+      preparedReq._header.should.have.property("authorization");
+      preparedReq._header.authorization.should.equal(expectedAuthHeader);
+    });
+
+    it("should get a new token using clientId and clientSecret", function(done){
+      const client = new Client("accountId", fakeUsername, fakePassword, fakeClientId, fakeClientSecret);
+      const req = superagent.get("https://test.com");
+
+      const tokenScope = nock("https://api.bandwidth.com")
+        .post("/api/v1/oauth2/token", "grant_type=client_credentials")
+        .matchHeader('authorization', header => {
+          const expected = "Basic " + clientAuthEncoded;
+          return header === expected;
+        })
+        .reply(200, {
+          access_token: "new_fake_token",
+          expires_in: 3600
+        });
+
+        
+      setTimeout(() => {
+        const preparedReq = client.prepareRequest(req);
+        preparedReq.should.have.property("_header");
+        preparedReq._header.should.have.property("authorization");
+        preparedReq._header.authorization.should.equal("Bearer new_fake_token");
+        tokenScope.done();
+        done();
+      }, 50);
+    });
+
+    it("should accept clientId and clientSecret from globalOptions", function(done){
+      Client.globalOptions.clientId = fakeClientId;
+      Client.globalOptions.clientSecret = fakeClientSecret;
+      const client = new Client("accountId", fakeUsername, fakePassword);
+      const req = superagent.get("https://test.com");
+
+      const tokenScope = nock("https://api.bandwidth.com")
+        .post("/api/v1/oauth2/token", "grant_type=client_credentials")
+        .matchHeader('authorization', header => {
+          const expected = "Basic " + clientAuthEncoded;
+          return header === expected;
+        })
+        .reply(200, {
+          access_token: "new_fake_token",
+          expires_in: 3600
+        });
+
+        
+      setTimeout(() => {
+        const preparedReq = client.prepareRequest(req);
+        preparedReq.should.have.property("_header");
+        preparedReq._header.should.have.property("authorization");
+        preparedReq._header.authorization.should.equal("Bearer new_fake_token");
+        tokenScope.done();
+        done();
+      }, 50);
+    });
+
+    it("should throw error if no auth method available", function(){
+      Client.globalOptions.userName = null;
+      Client.globalOptions.password = null;
+      Client.globalOptions.clientId = null;
+      Client.globalOptions.clientSecret = null;
+      const client = new Client("accountId");
+      const req = superagent.get("https://test.com");
+
+      (function(){
+        client.prepareRequest(req)
+      }).should.throw("No authentication method available");
+
+      helper.setupGlobalOptions();
     });
   });
   describe("#makeRequest", function(){
