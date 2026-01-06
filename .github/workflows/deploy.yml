@@ -23,6 +23,7 @@ jobs:
         with:
           node-version: 16
           registry-url: "https://registry.npmjs.org"
+          always-auth: true
 
       - name: Build and test npm package
         run: |
