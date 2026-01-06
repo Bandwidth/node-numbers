@@ -7,6 +7,9 @@ jobs:
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
     if: ${{ !github.event.release.prerelease && github.event.release.target_commitish == 'main' }}
     steps:
       - name: Checkout
@@ -18,7 +21,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v6
         with:
-          node-version: "12.x"
+          node-version: 16
           registry-url: "https://registry.npmjs.org"
 
       - name: Build and test npm package
@@ -38,6 +41,4 @@ jobs:
       - name: Publish npm package
         run: |
           npm version $RELEASE_VERSION --no-git-tag-version
-          npm publish --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+          npm publish --provenance --access public
