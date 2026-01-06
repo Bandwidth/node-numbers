@@ -22,7 +22,6 @@ jobs:
         uses: actions/setup-node@v6
         with:
           node-version: 16
-          registry-url: "https://registry.npmjs.org"
 
       - name: Build and test npm package
         run: |
@@ -32,11 +31,6 @@ jobs:
           BW_ACCOUNT_ID: ${{ secrets.BW_ACCOUNT_ID }}
           BW_USERNAME: ${{ secrets.BW_USERNAME }}
           BW_PASSWORD: ${{ secrets.BW_PASSWORD }}
-          BW_VOICE_APPLICATION_ID: ${{ secrets.BW_VOICE_APPLICATION_ID }}
-          BW_MESSAGING_APPLICATION_ID: ${{ secrets.BW_MESSAGING_APPLICATION_ID }}
-          BW_NUMBER: ${{ secrets.BW_NUMBER }}
-          USER_NUMBER: ${{ secrets.USER_NUMBER }}
-          BASE_CALLBACK_URL: ${{ secrets.BASE_CALLBACK_URL }}
 
       - name: Publish npm package
         run: |
