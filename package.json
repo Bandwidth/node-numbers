@@ -4,8 +4,8 @@
   "description": "NodeJs Client library for Bandwidth Numbers API",
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha",
-    "windows-test": "./node_modules/.bin/istanbul cover ./node_modules/mocha/bin/_mocha"
+    "test": "nyc mocha",
+    "windows-test": "nyc mocha"
   },
   "repository": {
     "type": "git",
@@ -29,9 +29,9 @@
     "xml2js": "^0.5.0"
   },
   "devDependencies": {
-    "istanbul": "^0.4.5",
     "mocha": "^5.2.0",
     "nock": "^10.0.1",
+    "nyc": "^15.1.0",
     "should": "^4.3.0"
   },
   "publishConfig": {

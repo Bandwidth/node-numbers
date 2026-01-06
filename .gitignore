@@ -61,3 +61,4 @@ Thumbs.db
 runTestsDebug.sh
 .mimosa/require/*
 logfile
+.nyc_output
