@@ -3,13 +3,13 @@ on:
   release:
     types:
       - published
+permissions:
+  id-token: write
+  contents: read
 jobs:
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      id-token: write
     if: ${{ !github.event.release.prerelease && github.event.release.target_commitish == 'main' }}
     steps:
       - name: Checkout
@@ -41,4 +41,4 @@ jobs:
       - name: Publish npm package
         run: |
           npm version $RELEASE_VERSION --no-git-tag-version
-          npm publish --provenance --access public
+          npm publish --access public
