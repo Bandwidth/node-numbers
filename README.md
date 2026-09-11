@@ -61,6 +61,72 @@ numbers.Site.list(function(err, sites){
 
 ```
 
+## Authentication
+
+The SDK supports two authentication methods: OAuth2 client credentials (**preferred**) and basic auth (username/password).
+
+**Never hard code credentials in source code.** Load `clientId`/`clientSecret` (or `userName`/`password`) from a secure source such as environment variables or a secrets manager, e.g.:
+
+```js
+numbers.Client.globalOptions.clientId = process.env.BANDWIDTH_CLIENT_ID;
+numbers.Client.globalOptions.clientSecret = process.env.BANDWIDTH_CLIENT_SECRET;
+```
+
+### OAuth2 Client Credentials (Preferred)
+
+```js
+var numbers = require("@bandwidth/numbers");
+
+//Using client directly
+var client = new numbers.Client("accountId", null, null, process.env.BANDWIDTH_CLIENT_ID, process.env.BANDWIDTH_CLIENT_SECRET);
+numbers.Site.list(client, function(err, sites){...});
+
+//Or you can use default client instance (do this only once)
+numbers.Client.globalOptions.accountId = "accountId";
+numbers.Client.globalOptions.clientId = process.env.BANDWIDTH_CLIENT_ID;
+numbers.Client.globalOptions.clientSecret = process.env.BANDWIDTH_CLIENT_SECRET;
+
+//Now you can call any functions without first arg 'client'
+
+numbers.Site.list(function(err, sites){
+  //Default client will be used to do this call
+});
+
+```
+
+When `clientId`/`clientSecret` are set, the client automatically fetches and refreshes an OAuth2 access token in the background, and transparently retries a request once if it gets a `401` response. If both OAuth credentials and a username/password are configured, the OAuth bearer token is used.
+
+To manage the token yourself instead of relying on auto-refresh, pass `{ autoRefreshToken: false }` as the client's `options` argument along with a `tempAccessToken`:
+
+```js
+var client = new numbers.Client("accountId", null, null, "clientId", "clientSecret", {
+  autoRefreshToken: false,
+  tempAccessToken: "existingAccessToken"
+});
+```
+
+### Basic Auth
+
+```js
+var numbers = require("@bandwidth/numbers");
+
+//Using client directly
+var client = new numbers.Client("accountId", process.env.BANDWIDTH_USERNAME, process.env.BANDWIDTH_PASSWORD);
+numbers.Site.list(client, function(err, sites){...});
+
+//Or you can use default client instance (do this only once)
+numbers.Client.globalOptions.accountId = "accountId";
+numbers.Client.globalOptions.userName = process.env.BANDWIDTH_USERNAME;
+numbers.Client.globalOptions.password = process.env.BANDWIDTH_PASSWORD;
+
+//Now you can call any functions without first arg 'client'
+
+numbers.Site.list(function(err, sites){
+  //Default client will be used to do this call
+});
+
+```
+
 ## Async Methods
 
 Each API Call also contains an async method that returns a promise for use with `.then` or `async`/`await`.
