@@ -65,19 +65,26 @@ numbers.Site.list(function(err, sites){
 
 The SDK supports two authentication methods: OAuth2 client credentials (**preferred**) and basic auth (username/password).
 
+**Never hard code credentials in source code.** Load `clientId`/`clientSecret` (or `userName`/`password`) from a secure source such as environment variables or a secrets manager, e.g.:
+
+```js
+numbers.Client.globalOptions.clientId = process.env.BANDWIDTH_CLIENT_ID;
+numbers.Client.globalOptions.clientSecret = process.env.BANDWIDTH_CLIENT_SECRET;
+```
+
 ### OAuth2 Client Credentials (Preferred)
 
 ```js
 var numbers = require("@bandwidth/numbers");
 
 //Using client directly
-var client = new numbers.Client("accountId", null, null, "clientId", "clientSecret");
+var client = new numbers.Client("accountId", null, null, process.env.BANDWIDTH_CLIENT_ID, process.env.BANDWIDTH_CLIENT_SECRET);
 numbers.Site.list(client, function(err, sites){...});
 
 //Or you can use default client instance (do this only once)
 numbers.Client.globalOptions.accountId = "accountId";
-numbers.Client.globalOptions.clientId = "clientId";
-numbers.Client.globalOptions.clientSecret = "clientSecret";
+numbers.Client.globalOptions.clientId = process.env.BANDWIDTH_CLIENT_ID;
+numbers.Client.globalOptions.clientSecret = process.env.BANDWIDTH_CLIENT_SECRET;
 
 //Now you can call any functions without first arg 'client'
 
@@ -104,13 +111,13 @@ var client = new numbers.Client("accountId", null, null, "clientId", "clientSecr
 var numbers = require("@bandwidth/numbers");
 
 //Using client directly
-var client = new numbers.Client("accountId", "userName", "password");
+var client = new numbers.Client("accountId", process.env.BANDWIDTH_USERNAME, process.env.BANDWIDTH_PASSWORD);
 numbers.Site.list(client, function(err, sites){...});
 
 //Or you can use default client instance (do this only once)
 numbers.Client.globalOptions.accountId = "accountId";
-numbers.Client.globalOptions.userName = "userName";
-numbers.Client.globalOptions.password = "password";
+numbers.Client.globalOptions.userName = process.env.BANDWIDTH_USERNAME;
+numbers.Client.globalOptions.password = process.env.BANDWIDTH_PASSWORD;
 
 //Now you can call any functions without first arg 'client'
 
