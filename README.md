@@ -61,6 +61,65 @@ numbers.Site.list(function(err, sites){
 
 ```
 
+## Authentication
+
+The SDK supports two authentication methods: OAuth2 client credentials (**preferred**) and basic auth (username/password).
+
+### OAuth2 Client Credentials (Preferred)
+
+```js
+var numbers = require("@bandwidth/numbers");
+
+//Using client directly
+var client = new numbers.Client("accountId", null, null, "clientId", "clientSecret");
+numbers.Site.list(client, function(err, sites){...});
+
+//Or you can use default client instance (do this only once)
+numbers.Client.globalOptions.accountId = "accountId";
+numbers.Client.globalOptions.clientId = "clientId";
+numbers.Client.globalOptions.clientSecret = "clientSecret";
+
+//Now you can call any functions without first arg 'client'
+
+numbers.Site.list(function(err, sites){
+  //Default client will be used to do this call
+});
+
+```
+
+When `clientId`/`clientSecret` are set, the client automatically fetches and refreshes an OAuth2 access token in the background, and transparently retries a request once if it gets a `401` response. If both OAuth credentials and a username/password are configured, the OAuth bearer token is used.
+
+To manage the token yourself instead of relying on auto-refresh, pass `{ autoRefreshToken: false }` as the client's `options` argument along with a `tempAccessToken`:
+
+```js
+var client = new numbers.Client("accountId", null, null, "clientId", "clientSecret", {
+  autoRefreshToken: false,
+  tempAccessToken: "existingAccessToken"
+});
+```
+
+### Basic Auth
+
+```js
+var numbers = require("@bandwidth/numbers");
+
+//Using client directly
+var client = new numbers.Client("accountId", "userName", "password");
+numbers.Site.list(client, function(err, sites){...});
+
+//Or you can use default client instance (do this only once)
+numbers.Client.globalOptions.accountId = "accountId";
+numbers.Client.globalOptions.userName = "userName";
+numbers.Client.globalOptions.password = "password";
+
+//Now you can call any functions without first arg 'client'
+
+numbers.Site.list(function(err, sites){
+  //Default client will be used to do this call
+});
+
+```
+
 ## Async Methods
 
 Each API Call also contains an async method that returns a promise for use with `.then` or `async`/`await`.
