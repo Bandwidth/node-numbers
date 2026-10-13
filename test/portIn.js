@@ -388,6 +388,42 @@ describe("PortIn", function(){
         });
       });
     });
+    it("should download file to destination file via callback with OAuth client credentials only", function(done){
+      nock.cleanAll();
+      helper.nockToken().reply(200, {access_token: "fake_token", expires_in: 3600});
+      helper.nock().matchHeader("authorization", "Bearer fake_token").get("/accounts/FakeAccountId/portins/1/loas/file.txt").reply(200, "12345", {"Content-Type": "text/plain"});
+      var order = new PortIn();
+      order.id = 1;
+      order.client = helper.createOAuthClient();
+      order.getFile("file.txt", tmpFile, function(err, stream){
+        if(err){
+          return done(err);
+        }
+        stream.on("finish", function(){
+          order.client.destroy();
+          fs.readFile(tmpFile, "utf8", function(err, text){
+            if(err){
+              done(err);
+            }
+            text.should.equal("12345");
+            done();
+          });
+        });
+      });
+    });
+    it("should fail via callback if no auth method available", function(done){
+      fs.writeFileSync(tmpFile, "");
+      var order = new PortIn();
+      order.id = 1;
+      order.client = new lib.Client("FakeAccountId", null, null, null, null);
+      order.getFile("file.txt", function(err){
+        if(err){
+          err.message.should.equal("No authentication method available");
+          return done();
+        }
+        done(new Error("An error was expected"));
+      });
+    });
   });
   describe("#createFile", function(){
     var order, tmpFile = path.join(os.tmpdir(), "dest.txt");
@@ -448,6 +484,40 @@ describe("PortIn", function(){
         }
         fileName.should.equal("test.txt");
         done();
+      });
+    });
+    it("should upload file to the server with OAuth client credentials only", function(done){
+      nock.cleanAll();
+      helper.nockToken().reply(200, {access_token: "fake_token", expires_in: 3600});
+      helper.nock().matchHeader("authorization", "Bearer fake_token").post("/accounts/FakeAccountId/portins/1/loas", "12345").reply(200, helper.xml.fileCreated, {"Content-Type": "application/xml"});
+      order.client = helper.createOAuthClient();
+      order.createFile(new Buffer.from("12345", "utf8"), "text/plain", function(err, fileName){
+        order.client.destroy();
+        if(err){
+          return done(err);
+        }
+        fileName.should.equal("test.txt");
+        done();
+      });
+    });
+    it("should fail on invalid data", function(done){
+      order.createFile(12345, "text/plain", function(err){
+        if(err){
+          err.message.should.equal("Invalid data to send");
+          return done();
+        }
+        done(new Error("An error was expected"));
+      });
+    });
+    it("should fail on network error", function(done){
+      nock.cleanAll();
+      helper.nock().post("/accounts/FakeAccountId/portins/1/loas").replyWithError({code: "ECONNRESET", message: "socket hang up"});
+      order.createFile(new Buffer.from("12345", "utf8"), "text/plain", function(err){
+        if(err){
+          err.code.should.equal("ECONNRESET");
+          return done();
+        }
+        done(new Error("An error was expected"));
       });
     });
   });

@@ -418,6 +418,81 @@ describe("client tests", function(){
       });
     })
   });
+  describe("OAuth token handling", function(){
+    var client;
+    afterEach(function(){
+      client.destroy();
+      nock.cleanAll();
+    });
+    it("should wait for the token before making a request", function(done){
+      helper.nockToken().reply(200, {access_token: "fake_token", expires_in: 3600});
+      helper.nock().matchHeader("authorization", "Bearer fake_token").get("/test")
+        .reply(200, "<Response><Test>test</Test></Response>", {"Content-Type": "application/xml"});
+      client = helper.createOAuthClient();
+      client.makeRequest("get", "/test", function(err, r){
+        if(err){
+          return done(err);
+        }
+        r.test.should.equal("test");
+        done();
+      });
+    });
+    it("should fail with the token error if token fetch fails and no other auth is available", function(done){
+      helper.nockToken().reply(401);
+      client = helper.createOAuthClient();
+      client.makeRequest("get", "/test", function(err){
+        if(!err){
+          return done(new Error("An error is expected"));
+        }
+        err.status.should.equal(401);
+        done();
+      });
+    });
+    it("should fall back to basic auth if token fetch fails", function(done){
+      helper.nockToken().reply(401);
+      helper.nock().matchHeader("authorization", /^Basic /).get("/test").reply(200);
+      client = new Client("FakeAccountId", "FakeUserName", "FakePassword", "FakeClientId", "FakeClientSecret");
+      client.makeRequest("get", "/test", done);
+    });
+    it("should refresh the token and retry once on 401", function(done){
+      helper.nockToken().reply(200, {access_token: "expired_token", expires_in: 3600});
+      helper.nockToken().reply(200, {access_token: "fresh_token", expires_in: 3600});
+      helper.nock().matchHeader("authorization", "Bearer expired_token").get("/test").reply(401);
+      helper.nock().matchHeader("authorization", "Bearer fresh_token").get("/test")
+        .reply(200, "<Response><Test>test</Test></Response>", {"Content-Type": "application/xml"});
+      client = helper.createOAuthClient();
+      client.makeRequest("get", "/test", function(err, r){
+        if(err){
+          return done(err);
+        }
+        r.test.should.equal("test");
+        done();
+      });
+    });
+    it("should not retry more than once on 401", function(done){
+      helper.nockToken().times(2).reply(200, {access_token: "fake_token", expires_in: 3600});
+      helper.nock().get("/test").times(2).reply(401);
+      client = helper.createOAuthClient();
+      client.makeRequest("get", "/test", function(err){
+        if(!err){
+          return done(new Error("An error is expected"));
+        }
+        err.status.should.equal(401);
+        done();
+      });
+    });
+  });
+  describe("#buildAuthenticatedRequest", function(){
+    it("should pass auth errors to the callback instead of throwing", function(done){
+      var client = new Client("FakeAccountId", null, null, null, null);
+      client.buildAuthenticatedRequest(function(){
+        return client.createGetRequest("/test");
+      }, function(err){
+        err.message.should.equal("No authentication method available");
+        done();
+      });
+    });
+  });
   describe("#concatAccountPath", function(){
     it("should return formatted url", function(){
       var client = new Client("accountId");
