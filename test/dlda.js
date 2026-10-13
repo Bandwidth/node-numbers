@@ -53,6 +53,15 @@ describe("Dlda", function(){
         done();
       });
     });
+    it("should fail on error status code", function(done){
+      helper.nock().post("/accounts/FakeAccountId/dldas").reply(400);
+      Dlda.create(helper.createClient(), {}, function(err){
+        if(err){
+          return done();
+        }
+        done(new Error("An error is expected"));
+      });
+    });
   });
   describe("#getHistory", function(){
     it("should return history", function(done){

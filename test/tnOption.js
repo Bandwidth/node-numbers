@@ -221,5 +221,28 @@ describe("TnOption", function(){
         done(new Error("An error is expected"));
       });
     });
+
+    it("should create with OAuth client credentials only", function(done){
+      const userInput = {
+        customerOrderId: 'myOrderId',
+        tnOptionGroups: [
+          {
+            sms: 'on',
+            telephoneNumbers: ['2018551020']
+          }
+        ]
+      }
+      const client = helper.createOAuthClient();
+      helper.nockToken().reply(200, {access_token: "fake_token", expires_in: 3600});
+      helper.nock().matchHeader("authorization", "Bearer fake_token").post("/accounts/FakeAccountId/tnoptions").reply(201, helper.xml.tnOptionOrderResponse, {"Location": "/accounts/FakeAccountId/tnoptions/1"});
+      TnOption.create(client, userInput,  function(err, item){
+        client.destroy();
+        if(err){
+          return done(err);
+        }
+        item.createdByUser.should.equal('user');
+        done();
+      });
+    });
   });
 });
